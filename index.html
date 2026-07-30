@@ -10,11 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* ================= PREMIUM CSS VARIABLES ================= */
         :root {
-            --bg-dark: #09090b; --bg-card: rgba(24, 24, 27, 0.7);
+            --bg-dark: #09090b; --bg-card: rgba(24, 24, 27, 0.85);
             --text-main: #ffffff; --text-muted: #a1a1aa;
-            --primary-glow: #3b82f6; --secondary-glow: #8b5cf6;
+            --primary: #3b82f6; --secondary: #8b5cf6;
             --accent: #10b981; --danger: #ef4444; --warning: #f59e0b;
+            --gold: #fbbf24; --silver: #94a3b8; --bronze: #b45309;
             --glass-border: rgba(255, 255, 255, 0.08);
             --font-main: 'Outfit', sans-serif;
         }
@@ -22,50 +24,66 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; min-height: 100vh; padding-bottom: 100px; }
 
-        /* Background */
-        .bg-mesh { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0, transparent 50%), radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.12) 0, transparent 50%); filter: blur(60px); animation: pulseBg 10s infinite alternate; }
-        @keyframes pulseBg { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0, transparent 50%), radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0, transparent 50%); filter: blur(50px); animation: pulseBg 8s infinite alternate; }
+        @keyframes pulseBg { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
-        .glass-panel { background: var(--bg-card); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 20px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); margin-bottom: 16px; }
-
-        /* Buttons & Inputs */
-        .btn-glow { background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow)); color: white; border: none; padding: 14px 24px; border-radius: 16px; font-weight: 600; font-size: 15px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: 0.3s; }
-        .btn-glow:active { transform: scale(0.98); }
-        .btn-glow:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 10px 20px; border-radius: 14px; font-weight: 500; font-size: 14px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;}
-        
-        .text-gradient { background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .container { padding: 16px; }
+        /* UI Components */
+        .glass-panel { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
+        .container { padding: 15px; }
         .hidden { display: none !important; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
-        .avatar-img { width: 50px; height: 50px; border-radius: 16px; object-fit: cover; }
+        .text-gradient { background: linear-gradient(to right, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Buttons */
+        .btn-glow { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; padding: 14px 20px; border-radius: 14px; font-weight: 600; font-size: 15px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); transition: 0.3s; }
+        .btn-glow:active { transform: scale(0.96); box-shadow: none; }
+        .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 10px 15px; border-radius: 12px; font-weight: 500; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; transition: 0.3s; }
+
+        /* Header & Profile */
+        .header-profile { display: flex; align-items: center; gap: 12px; }
+        .avatar-img { width: 48px; height: 48px; border-radius: 14px; border: 2px solid rgba(255,255,255,0.1); object-fit: cover; background: #18181b; }
+        .lang-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: white; padding: 6px 12px; border-radius: 10px; font-size: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         
         /* Stats & Lists */
-        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-        .stat-box { padding: 12px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); text-align: center; }
-        .list-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .stat-box { padding: 12px 5px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); text-align: center; }
+        .list-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 14px; padding: 12px 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
         
         /* Progress Bar */
-        .progress-bg { background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; margin-top: 8px; overflow: hidden;}
-        .progress-fill { background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow)); height: 100%; width: 0%; border-radius: 10px; transition: 0.5s; }
+        .progress-bg { background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; margin-top: 8px; overflow: hidden; width: 100%;}
+        .progress-fill { background: linear-gradient(90deg, var(--primary), var(--secondary)); height: 100%; width: 0%; border-radius: 10px; transition: 0.5s; }
 
-        /* Navigation */
-        .nav-wrapper { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 24px; display: flex; justify-content: space-around; padding: 10px; z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; cursor: pointer; width: 60px; transition: 0.3s; }
-        .nav-item.active { color: var(--primary-glow); }
-        .nav-item.active i { transform: translateY(-3px) scale(1.1); }
+        /* Floating Navigation (PREMIUM SIZE) */
+        .nav-wrapper { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 24px; display: flex; justify-content: space-around; padding: 12px 10px; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); font-size: 12px; font-weight: 500; cursor: pointer; width: 65px; transition: 0.3s; }
+        .nav-item i { font-size: 22px; transition: 0.3s; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item.active i { transform: translateY(-4px) scale(1.15); filter: drop-shadow(0 4px 6px rgba(59, 130, 246, 0.4)); }
+        
+        /* Tabs */
         .tab-content { display: none; opacity: 0; transform: translateY(10px); transition: 0.3s; }
         .tab-content.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Inputs & Modals */
-        .input-box { width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 14px; color: white; font-size: 14px; outline: none; margin-bottom: 15px; font-family: var(--font-main);}
-        select.input-box { appearance: none; background-color: rgba(0,0,0,0.8); }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
-        .modal-overlay.active { display: flex; }
-        .modal-content { background: var(--bg-card); border: 1px solid var(--glass-border); width: 100%; max-width: 400px; border-radius: 24px; padding: 20px; position: relative;}
+        /* Leaderboard Specifics */
+        .lb-tabs { display: flex; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 4px; margin-bottom: 15px; }
+        .lb-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 10px; transition: 0.3s; }
+        .lb-tab.active { background: var(--primary); color: white; }
+        .lb-container { max-height: 250px; overflow-y: auto; scroll-behavior: smooth; padding-right: 5px; }
+        .lb-container::-webkit-scrollbar { width: 4px; }
+        .lb-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .crown-icon { font-size: 16px; margin-right: 5px; }
 
+        /* Forms */
+        .input-box { width: 100%; padding: 14px; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 14px; color: white; font-size: 14px; outline: none; margin-bottom: 15px; font-family: var(--font-main);}
+        select.input-box { appearance: none; background-color: rgba(0,0,0,0.9); }
+        
+        /* Modals & Loaders */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--bg-card); border: 1px solid var(--glass-border); width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; position: relative;}
+        
         #loading-screen { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .spinner { width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary-glow); animation: spin 1s linear infinite; margin-bottom: 20px; }
+        .spinner { width: 45px; height: 45px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -77,18 +95,19 @@
     <div id="loading-screen">
         <div class="spinner"></div>
         <h2 class="text-gradient">Premium Earn</h2>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 10px;">Connecting to secure server...</p>
     </div>
 
     <!-- FORCE JOIN SCREEN -->
     <div id="force-join-screen" class="hidden container">
         <div style="display: flex; flex-direction: column; justify-content: center; min-height: 85vh; text-align: center;">
             <div class="glass-panel">
-                <i class="fa-brands fa-telegram text-gradient" style="font-size: 50px; margin-bottom: 15px;"></i>
-                <h2>Join Required</h2>
-                <p style="margin-bottom: 20px; font-size:13px; color:var(--text-muted);">You must join our channels to start earning.</p>
+                <i class="fa-brands fa-telegram text-gradient" style="font-size: 55px; margin-bottom: 15px;"></i>
+                <h2 data-i18n="join_req">Join Required</h2>
+                <p style="margin-bottom: 20px; font-size:13px; color:var(--text-muted);" data-i18n="join_desc">You must join our channels to start earning.</p>
                 <div id="channels-list"></div>
-                <button class="btn-glow" id="verify-channels-btn" style="margin-top: 20px;" onclick="verifyChannels()">
-                    <i class="fa-solid fa-check"></i> Verify Join
+                <button class="btn-glow" id="verify-channels-btn" style="margin-top: 15px;" onclick="verifyChannels()">
+                    <i class="fa-solid fa-shield-check"></i> <span data-i18n="verify_btn">Verify Join</span>
                 </button>
             </div>
         </div>
@@ -97,29 +116,32 @@
     <!-- MAIN APP -->
     <div id="main-app" class="hidden">
         
-        <!-- HEADER -->
-        <div class="container flex-between" style="padding-bottom: 0;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <img src="" id="ui-profile-pic" class="avatar-img" onerror="this.src='https://ui-avatars.com/api/?name=U&background=18181b&color=fff'">
+        <!-- HEADER (Profile + Language Toggle) -->
+        <div class="container flex-between" style="padding-bottom: 0; padding-top: 20px;">
+            <div class="header-profile">
+                <!-- Fallback will be handled via JS based on actual Telegram Name -->
+                <img src="" id="ui-profile-pic" class="avatar-img">
                 <div>
-                    <h3 id="ui-user-name" style="font-size: 16px;">User</h3>
+                    <h3 id="ui-user-name" style="font-size: 16px; font-weight: 600;">User</h3>
                     <p style="font-size: 11px; color: var(--accent);">ID: <span id="ui-user-id">...</span></p>
                 </div>
             </div>
+            <!-- Language Button Restored -->
+            <button class="lang-btn" onclick="toggleLanguage()" id="lang-btn">EN</button>
         </div>
 
         <!-- ================= HOME TAB ================= -->
         <div id="tab-home" class="tab-content active container">
             <div class="glass-panel" style="text-align: center;">
-                <p style="font-size: 13px;">Main Balance</p>
-                <h1 style="font-size: 42px; margin: 5px 0;" class="text-gradient">
+                <p style="font-size: 13px;" data-i18n="main_balance">Main Balance</p>
+                <h1 style="font-size: 44px; margin: 5px 0; font-weight: 800;" class="text-gradient">
                     <span class="curr-sym">$</span><span id="ui-main-balance">0.00</span>
                 </h1>
                 
                 <div style="text-align: left; margin-top: 15px;">
                     <div class="flex-between">
-                        <span style="font-size: 12px; color: var(--text-muted);">Daily Ads Limit</span>
-                        <span style="font-size: 12px; font-weight: 600;"><span id="ui-ads-done">0</span> / <span id="ui-ads-total">100</span></span>
+                        <span style="font-size: 12px; color: var(--text-muted);" data-i18n="daily_ad_limit">Daily Ads Limit</span>
+                        <span style="font-size: 12px; font-weight: 600;"><span id="ui-ads-done">0</span> / <span id="ui-ads-total">10</span></span>
                     </div>
                     <div class="progress-bg"><div class="progress-fill" id="ui-ads-progress"></div></div>
                 </div>
@@ -128,46 +150,61 @@
             <!-- Incomes Source -->
             <div class="stat-grid">
                 <div class="stat-box">
-                    <i class="fa-solid fa-video" style="color: var(--primary-glow);"></i>
-                    <p style="font-size: 10px; margin: 4px 0;">Ad Income</p>
+                    <i class="fa-solid fa-video" style="color: var(--primary); font-size: 18px;"></i>
+                    <p style="font-size: 11px; margin: 6px 0 2px;" data-i18n="ad_income">Ad Income</p>
                     <h4 style="font-size: 14px;"><span class="curr-sym">$</span><span id="ui-ad-income">0.00</span></h4>
                 </div>
                 <div class="stat-box">
-                    <i class="fa-solid fa-briefcase" style="color: var(--warning);"></i>
-                    <p style="font-size: 10px; margin: 4px 0;">Task Income</p>
+                    <i class="fa-solid fa-briefcase" style="color: var(--warning); font-size: 18px;"></i>
+                    <p style="font-size: 11px; margin: 6px 0 2px;" data-i18n="task_income">Task Income</p>
                     <h4 style="font-size: 14px;"><span class="curr-sym">$</span><span id="ui-task-income">0.00</span></h4>
                 </div>
                 <div class="stat-box">
-                    <i class="fa-solid fa-users" style="color: var(--accent);"></i>
-                    <p style="font-size: 10px; margin: 4px 0;">Ref Income</p>
+                    <i class="fa-solid fa-users" style="color: var(--accent); font-size: 18px;"></i>
+                    <p style="font-size: 11px; margin: 6px 0 2px;" data-i18n="ref_income">Ref Income</p>
                     <h4 style="font-size: 14px;"><span class="curr-sym">$</span><span id="ui-ref-income">0.00</span></h4>
                 </div>
             </div>
 
-            <!-- Leaderboard -->
-            <h3 style="margin: 20px 0 10px; font-size: 18px;">Top Earners</h3>
-            <div class="glass-panel" style="padding: 10px;" id="leaderboard-list">
-                <div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 12px;">Loading Data...</div>
+            <!-- Leaderboard Section -->
+            <div class="glass-panel" style="padding: 15px;">
+                <!-- Tabs -->
+                <div class="lb-tabs">
+                    <div class="lb-tab active" id="tab-earners" onclick="switchLbTab('earners')" data-i18n="top_earners">Top Earners</div>
+                    <div class="lb-tab" id="tab-referrers" onclick="switchLbTab('referrers')" data-i18n="top_ref">Top Referrers</div>
+                </div>
+                
+                <!-- Auto Scrolling Container -->
+                <div class="lb-container" id="leaderboard-container">
+                    <div id="leaderboard-list">
+                        <div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 12px;">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Developer Credit -->
+            <div style="text-align: center; margin-bottom: 10px;">
+                <p style="font-size: 11px; color: var(--text-muted);">
+                    <i class="fa-solid fa-code" style="color: var(--accent);"></i> Designed by <span style="color: white; font-weight: 600;">SAHABI_TECH</span>
+                </p>
             </div>
         </div>
 
         <!-- ================= WORK TAB ================= -->
         <div id="tab-work" class="tab-content container">
-            
-            <!-- Ad Section -->
-            <div class="glass-panel" style="text-align: center; border: 1px solid rgba(139,92,246,0.4);">
-                <i class="fa-solid fa-bolt text-gradient" style="font-size: 30px; margin-bottom: 10px;"></i>
-                <h2>Watch & Earn</h2>
-                <p style="margin-bottom: 15px; font-size:13px; color:var(--text-muted);">Watch short ads and earn instantly.</p>
-                <div style="color: var(--accent); font-weight: 600; margin-bottom: 15px;">Reward: <span class="curr-sym">$</span><span id="ui-ad-reward">0.00</span></div>
+            <div class="glass-panel" style="text-align: center; border: 1px solid rgba(139,92,246,0.3); padding: 25px 15px;">
+                <i class="fa-solid fa-bolt text-gradient" style="font-size: 32px; margin-bottom: 12px;"></i>
+                <h2 data-i18n="watch_earn">Watch & Earn</h2>
+                <p style="margin-bottom: 15px; font-size:13px; color:var(--text-muted);" data-i18n="watch_desc">Watch short ads and earn instantly.</p>
+                <div style="background: rgba(16,185,129,0.1); display:inline-block; padding: 5px 15px; border-radius: 20px; color: var(--accent); font-weight: 600; margin-bottom: 20px; font-size: 13px;">Reward: <span class="curr-sym">$</span><span id="ui-ad-reward">0.00</span></div>
                 
                 <button class="btn-glow" id="btn-watch-ad" onclick="triggerAd()">
-                    <i class="fa-solid fa-play"></i> Show Ad Now
+                    <i class="fa-solid fa-play-circle" style="font-size: 18px;"></i> <span data-i18n="show_ad_btn">Show Ad Now</span>
                 </button>
-                <p id="ad-cooldown-text" style="font-size: 12px; margin-top: 10px; color: var(--warning); display: none;"></p>
+                <p id="ad-cooldown-text" style="font-size: 12px; margin-top: 12px; color: var(--warning); display: none;"></p>
             </div>
 
-            <h3 style="margin: 20px 0 10px; font-size: 18px;">Other Tasks</h3>
+            <h3 style="margin: 20px 0 10px; font-size: 16px;" data-i18n="other_tasks">Other Tasks</h3>
             <div id="tasks-container">
                 <div style="text-align:center; color:var(--text-muted); font-size:13px;">Loading tasks...</div>
             </div>
@@ -175,15 +212,15 @@
 
         <!-- ================= WALLET TAB ================= -->
         <div id="tab-wallet" class="tab-content container">
-            <div class="glass-panel" style="text-align: center; padding: 30px 20px;">
-                <p>Available Balance</p>
-                <h1 class="text-gradient" style="font-size: 40px;"><span class="curr-sym">$</span><span id="ui-wallet-balance">0.00</span></h1>
-                <button class="btn-glow" style="margin-top: 20px;" onclick="openWithdrawModal()">
-                    <i class="fa-solid fa-money-bill-transfer"></i> Withdraw
+            <div class="glass-panel" style="text-align: center; padding: 30px 15px;">
+                <p data-i18n="available_bal" style="font-size: 13px;">Available Balance</p>
+                <h1 class="text-gradient" style="font-size: 40px; margin: 10px 0;"><span class="curr-sym">$</span><span id="ui-wallet-balance">0.00</span></h1>
+                <button class="btn-glow" style="margin-top: 15px;" onclick="document.getElementById('modal-withdraw').classList.add('active')">
+                    <i class="fa-solid fa-money-bill-transfer"></i> <span data-i18n="withdraw_btn">Withdraw Funds</span>
                 </button>
             </div>
             
-            <h3 style="margin: 20px 0 10px; font-size: 18px;">Withdrawal History</h3>
+            <h3 style="margin: 20px 0 10px; font-size: 16px;" data-i18n="withdraw_history">Withdrawal History</h3>
             <div id="history-container">
                 <div class="glass-panel" style="padding: 15px; text-align: center; font-size: 13px; color: var(--text-muted);">Loading history...</div>
             </div>
@@ -191,89 +228,87 @@
 
         <!-- ================= PROFILE TAB ================= -->
         <div id="tab-profile" class="tab-content container">
-            
             <div class="glass-panel flex-between" style="align-items:center;">
                 <div>
-                    <h3 style="font-size:16px;">Referral Program</h3>
-                    <p style="font-size: 12px; color:var(--text-muted);">Earn <span class="curr-sym">$</span><span id="ui-ref-bonus-amt">0.00</span> per invite!</p>
+                    <h3 style="font-size:16px;" data-i18n="ref_program">Referral Program</h3>
+                    <p style="font-size: 12px; color:var(--text-muted); margin-top: 3px;">Earn <span class="curr-sym">$</span><span id="ui-ref-bonus-amt">0.00</span> <span data-i18n="per_invite">per invite!</span></p>
                 </div>
-                <i class="fa-solid fa-users text-gradient" style="font-size:24px;"></i>
+                <div style="width: 40px; height: 40px; background: rgba(59,130,246,0.1); border-radius: 12px; display:flex; justify-content:center; align-items:center;">
+                    <i class="fa-solid fa-user-plus text-gradient" style="font-size:18px;"></i>
+                </div>
             </div>
             
             <div class="glass-panel">
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:5px;">Your Invite Link</p>
-                <input type="text" id="ref-link-input" class="input-box" readonly value="Loading..." style="padding: 12px;">
-                
-                <div class="flex-between" style="gap: 10px;">
-                    <button class="btn-outline" style="flex:1;" onclick="copyReferral()"><i class="fa-solid fa-copy"></i> Copy</button>
-                    <button class="btn-glow" style="flex:1; padding:10px;" onclick="shareReferral()"><i class="fa-solid fa-share-nodes"></i> Share</button>
+                <input type="text" id="ref-link-input" class="input-box" readonly value="Loading..." style="padding: 14px; font-size: 12px; margin-bottom: 12px;">
+                <div class="flex-between" style="gap: 12px;">
+                    <button class="btn-outline" style="flex:1;" onclick="copyReferral()"><i class="fa-solid fa-copy"></i> <span data-i18n="copy">Copy Link</span></button>
+                    <button class="btn-glow" style="flex:1; padding:12px;" onclick="shareReferral()"><i class="fa-solid fa-share-nodes"></i> <span data-i18n="share">Share</span></button>
                 </div>
             </div>
-
-            <!-- Support/Socials -->
-            <a href="https://t.me/SAHABI_TECH" target="_blank" style="text-decoration: none;">
-                <div class="glass-panel" style="display: flex; justify-content: center; align-items: center; gap: 10px; padding: 15px; border: 1px solid rgba(16,185,129,0.3);">
-                    <i class="fa-solid fa-code" style="color: var(--accent);"></i>
-                    <span style="font-weight: 600; color: white;">Developed by <span style="color: var(--accent);">SAHABI_TECH</span></span>
-                </div>
-            </a>
         </div>
 
-        <!-- NAV -->
+        <!-- LARGE PREMIUM NAV -->
         <div class="nav-wrapper">
-            <div class="nav-item active" onclick="switchTab('home')" data-tab="home"><i class="fa-solid fa-house"></i><span>Home</span></div>
-            <div class="nav-item" onclick="switchTab('work')" data-tab="work"><i class="fa-solid fa-briefcase"></i><span>Work</span></div>
-            <div class="nav-item" onclick="switchTab('wallet')" data-tab="wallet"><i class="fa-solid fa-wallet"></i><span>Wallet</span></div>
-            <div class="nav-item" onclick="switchTab('profile')" data-tab="profile"><i class="fa-solid fa-user"></i><span>Profile</span></div>
+            <div class="nav-item active" onclick="switchTab('home')" data-tab="home">
+                <i class="fa-solid fa-house"></i><span data-i18n="nav_home">Home</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('work')" data-tab="work">
+                <i class="fa-solid fa-briefcase"></i><span data-i18n="nav_work">Work</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('wallet')" data-tab="wallet">
+                <i class="fa-solid fa-wallet"></i><span data-i18n="nav_wallet">Wallet</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('profile')" data-tab="profile">
+                <i class="fa-solid fa-user"></i><span data-i18n="nav_profile">Profile</span>
+            </div>
         </div>
     </div>
 
     <!-- Modals -->
     <div id="modal-alert" class="modal-overlay">
         <div class="modal-content" style="text-align: center;">
-            <h3 id="alert-title" style="margin-bottom: 10px;">Notice</h3>
-            <p id="alert-message" style="margin-bottom: 20px; font-size: 14px; color: var(--text-muted);">Message</p>
-            <button class="btn-glow" onclick="document.getElementById('modal-alert').classList.remove('active')">OK</button>
+            <div style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"><i class="fa-solid fa-circle-info"></i></div>
+            <h3 id="alert-title" style="margin-bottom: 10px; font-size: 18px;">Notice</h3>
+            <p id="alert-message" style="margin-bottom: 24px; font-size: 14px; color: var(--text-muted);">Message</p>
+            <button class="btn-glow" onclick="document.getElementById('modal-alert').classList.remove('active')">Got it!</button>
         </div>
     </div>
 
     <div id="modal-withdraw" class="modal-overlay">
         <div class="modal-content">
-            <div class="flex-between" style="margin-bottom: 15px;">
-                <h2 style="margin:0;">Withdraw Funds</h2>
+            <div class="flex-between" style="margin-bottom: 20px;">
+                <h2 style="margin:0; font-size: 20px;" data-i18n="withdraw_btn">Withdraw</h2>
                 <i class="fa-solid fa-times" style="font-size: 20px; cursor: pointer; color:var(--text-muted);" onclick="document.getElementById('modal-withdraw').classList.remove('active')"></i>
             </div>
             
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom:5px;">Select Method</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom:6px;">Select Method</p>
             <select id="withdraw-method" class="input-box" onchange="calculateWithdraw()">
                 <option value="">Loading methods...</option>
             </select>
 
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom:5px;">Amount (Min: <span class="curr-sym">$</span><span id="ui-min-withdraw">0</span>)</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom:6px;">Amount (Min: <span class="curr-sym">$</span><span id="ui-min-withdraw">0</span>)</p>
             <input type="number" id="withdraw-amount" class="input-box" placeholder="0.00" oninput="calculateWithdraw()">
             
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom:5px;">Account / Wallet Address</p>
-            <input type="text" id="withdraw-address" class="input-box" placeholder="Enter address">
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom:6px;">Wallet Address / Number</p>
+            <input type="text" id="withdraw-address" class="input-box" placeholder="Enter details here">
             
-            <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:10px; margin-bottom:15px; font-size:12px;">
+            <div style="background:rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding:12px; border-radius:12px; margin-bottom:20px; font-size:13px;">
                 <div class="flex-between"><span>Fee:</span> <span id="ui-withdraw-fee" style="color:var(--warning);">0.00</span></div>
-                <div class="flex-between" style="margin-top:5px; font-weight:bold;"><span>You Receive:</span> <span id="ui-withdraw-receive" style="color:var(--success);">0.00</span></div>
+                <div class="flex-between" style="margin-top:8px; font-weight:bold;"><span>You Receive:</span> <span id="ui-withdraw-receive" style="color:var(--success); font-size: 15px;">0.00</span></div>
             </div>
 
             <button class="btn-glow" id="btn-submit-withdraw" onclick="submitWithdraw()">Submit Request</button>
         </div>
     </div>
 
-    <!-- Monetag Script Injection (Dynamic via JS) -->
     <div id="ad-script-container"></div>
 
     <!-- FIREBASE & LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, serverTimestamp, collection, getDocs, query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, collection, getDocs, query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
-        // YOUR FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyDffxjfy2HYV_cDLTfbf8fNEpSEGVWs5pI",
             authDomain: "sts-test-tgbot.firebaseapp.com",
@@ -286,14 +321,39 @@
 
         const tg = window.Telegram.WebApp;
         tg.expand();
-        let tgUser = tg.initDataUnsafe?.user || { id: 7344316561, first_name: "MR SAHABI", username: "sahabi_pro" };
+        let tgUser = tg.initDataUnsafe?.user || { id: 7344316561, first_name: "MR SAHABI", username: "sahabi_pro", photo_url: "" };
         let startParam = tg.initDataUnsafe?.start_param || null;
 
-        let app, auth, db;
-        let currentUser = null;
-        let appSettings = { rewardPerAd: 0.1, dailyAdLimit: 100, minWithdraw: 2, currencySymbol: "$", botUsername: "Bot", monetagZoneId: "9754675", refBonus: 0.5 };
-        let payoutMethods = [];
-        let forceChannels = [];
+        let app, auth, db, currentUser = null, forceChannels = [], appSettings = {};
+        
+        // Dictionary for Multi-Language
+        const dict = {
+            en: { nav_home: "Home", nav_work: "Work", nav_wallet: "Wallet", nav_profile: "Profile", main_balance: "Main Balance", daily_ad_limit: "Daily Ads Limit", ad_income: "Ad Income", task_income: "Task Income", ref_income: "Ref Income", leaderboard: "Leaderboard", top_earners: "Top Earners", top_ref: "Top Referrers", watch_earn: "Watch & Earn", watch_desc: "Watch short ads and earn instantly.", show_ad_btn: "Show Ad Now", other_tasks: "Other Tasks", available_bal: "Available Balance", withdraw_btn: "Withdraw Funds", withdraw_history: "Withdrawal History", ref_program: "Referral Program", per_invite: "per invite!", copy: "Copy Link", share: "Share", join_req: "Join Required", join_desc: "You must join our channels to start earning.", verify_btn: "Verify Join" },
+            bn: { nav_home: "হোম", nav_work: "কাজ", nav_wallet: "ওয়ালেট", nav_profile: "প্রোফাইল", main_balance: "মূল ব্যালেন্স", daily_ad_limit: "দৈনিক অ্যাড লিমিট", ad_income: "অ্যাড আয়", task_income: "টাস্ক আয়", ref_income: "রেফার আয়", leaderboard: "লিডারবোর্ড", top_earners: "সর্বোচ্চ আয়কারী", top_ref: "সর্বোচ্চ রেফারার", watch_earn: "অ্যাড দেখুন ও আয় করুন", watch_desc: "অ্যাড দেখে সাথে সাথে আয় করুন।", show_ad_btn: "অ্যাড দেখুন", other_tasks: "অন্যান্য কাজ", available_bal: "বর্তমান ব্যালেন্স", withdraw_btn: "টাকা তুলুন", withdraw_history: "উত্তোলনের ইতিহাস", ref_program: "রেফারেল প্রোগ্রাম", per_invite: "প্রতি রেফারে!", copy: "কপি করুন", share: "শেয়ার", join_req: "জয়েন আবশ্যক", join_desc: "কাজ শুরু করতে চ্যানেলে জয়েন করুন।", verify_btn: "ভেরিফাই করুন" }
+        };
+        let currentLang = localStorage.getItem('lang') || 'en';
+
+        // Profile Picture Logic (Telegram URL or Dynamic Initial)
+        let picUrl = tgUser.photo_url;
+        if(!picUrl) {
+            let initial = encodeURIComponent(tgUser.first_name ? tgUser.first_name.charAt(0).toUpperCase() : 'U');
+            picUrl = `https://ui-avatars.com/api/?name=${initial}&background=18181b&color=3b82f6&size=100&bold=true`;
+        }
+        document.getElementById('ui-profile-pic').src = picUrl;
+
+        window.toggleLanguage = () => {
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            localStorage.setItem('lang', currentLang);
+            applyLanguage();
+        };
+
+        function applyLanguage() {
+            document.getElementById('lang-btn').innerText = currentLang.toUpperCase();
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(dict[currentLang][key]) el.innerHTML = dict[currentLang][key]; 
+            });
+        }
 
         window.customAlert = (title, msg) => {
             document.getElementById('alert-title').innerText = title;
@@ -308,163 +368,233 @@
             document.querySelector(`.nav-item[data-tab="${tabId}"]`).classList.add('active');
         };
 
-        // ================= INIT APP =================
+        // Leaderboard Logic (Tabs, State, Auto-scroll, Crowns)
+        let lbData = { earners: [], referrers: [] };
+        let activeLbTab = 'earners';
+
+        window.switchLbTab = (tab) => {
+            activeLbTab = tab;
+            document.querySelectorAll('.lb-tab').forEach(e => e.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            renderLeaderboard();
+        };
+
+        function getCrown(rank) {
+            if(rank === 1) return '<i class="fa-solid fa-crown crown-icon" style="color: var(--gold);"></i>';
+            if(rank === 2) return '<i class="fa-solid fa-crown crown-icon" style="color: var(--silver);"></i>';
+            if(rank === 3) return '<i class="fa-solid fa-crown crown-icon" style="color: var(--bronze);"></i>';
+            return `<div style="width:20px; text-align:center; font-size:12px; font-weight:bold; color:var(--text-muted);">${rank}</div>`;
+        }
+
+        function renderLeaderboard() {
+            let data = lbData[activeLbTab];
+            let html = '';
+            let valKey = activeLbTab === 'earners' ? 'total_income' : 'referral_count';
+            let prefix = activeLbTab === 'earners' ? `<span class="curr-sym">${appSettings.currencySymbol||'$'}</span>` : '';
+            let suffix = activeLbTab === 'referrers' ? ' Refs' : '';
+
+            if(data.length === 0) {
+                document.getElementById('leaderboard-list').innerHTML = '<p style="text-align:center; font-size:12px; padding:15px; color:var(--text-muted);">No data available.</p>';
+                return;
+            }
+
+            data.forEach((u, index) => {
+                let rank = index + 1;
+                let val = activeLbTab === 'earners' ? (u[valKey]||0).toFixed(2) : (u[valKey]||0);
+                
+                html += `
+                    <div class="list-item" style="padding:10px 15px;">
+                        <div style="display:flex; gap:12px; align-items:center;">
+                            ${getCrown(rank)}
+                            <span style="font-size:13px; font-weight:600;">${u.name || 'User'}</span>
+                        </div>
+                        <span style="color:var(--accent);font-weight:700;font-size:14px;">${prefix}${val}${suffix}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('leaderboard-list').innerHTML = html;
+        }
+
+        // Leaderboard Auto-Scroll (Smooth JS implementation)
+        let scrollTimer;
+        function startLbScroll() {
+            const container = document.getElementById('leaderboard-container');
+            clearInterval(scrollTimer);
+            scrollTimer = setInterval(() => {
+                if (container.scrollTop + container.clientHeight >= container.scrollHeight - 2) {
+                    container.scrollTop = 0; // Reset to top
+                } else {
+                    container.scrollTop += 1; // Scroll down 1px
+                }
+            }, 50); // Speed
+        }
+        // Pause scroll on touch/hover
+        document.getElementById('leaderboard-container').addEventListener('mouseenter', () => clearInterval(scrollTimer));
+        document.getElementById('leaderboard-container').addEventListener('mouseleave', startLbScroll);
+        document.getElementById('leaderboard-container').addEventListener('touchstart', () => clearInterval(scrollTimer));
+        document.getElementById('leaderboard-container').addEventListener('touchend', startLbScroll);
+
+        // App Initialization
         async function initApp() {
             try {
                 app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
+                
                 await signInAnonymously(auth);
 
-                // 1. LISTEN TO GLOBAL SETTINGS (Real-time from Admin)
+                // 1. Settings
                 onSnapshot(doc(db, "settings", "global"), (docSnap) => {
                     if(docSnap.exists()) {
                         appSettings = { ...appSettings, ...docSnap.data() };
-                        applySettingsToUI();
-                        injectAdScript(); // Inject monetag dynamically if Zone ID changes
+                        document.querySelectorAll('.curr-sym').forEach(el => el.innerText = appSettings.currencySymbol || '$');
+                        document.getElementById('ui-ad-reward').innerText = appSettings.rewardPerAd || 0;
+                        document.getElementById('ui-ads-total').innerText = appSettings.dailyAdLimit || 10;
+                        document.getElementById('ui-min-withdraw').innerText = appSettings.minWithdraw || 0;
+                        document.getElementById('ui-ref-bonus-amt').innerText = appSettings.refBonus || 0;
+                        
+                        if(appSettings.monetagZoneId) {
+                            document.getElementById('ad-script-container').innerHTML = `<script src='//libtl.com/sdk.js' data-zone='${appSettings.monetagZoneId}' data-sdk='show_${appSettings.monetagZoneId}'><\/script>`;
+                        }
+                        if(currentUser) {
+                            document.getElementById('ref-link-input').value = `https://t.me/${appSettings.botUsername || 'Bot'}?start=${currentUser.tg_id}`;
+                            updateDashboardUI();
+                        }
                     }
                 });
 
-                // 2. LISTEN TO CHANNELS (Real-time from Admin)
+                // 2. Channels
                 onSnapshot(collection(db, "channels"), (snap) => {
                     forceChannels = [];
                     snap.forEach(d => forceChannels.push({ id: d.id, ...d.data() }));
-                    checkForceJoin(); // Check if user needs to join new channels
+                    checkForceJoin();
                 });
 
-                // 3. LISTEN TO METHODS (Real-time from Admin)
+                // 3. Methods
                 onSnapshot(collection(db, "methods"), (snap) => {
-                    payoutMethods = [];
                     let optionsHtml = '<option value="">Select a Method</option>';
                     snap.forEach(d => {
                         let m = d.data();
-                        payoutMethods.push(m);
                         optionsHtml += `<option value="${m.name}" data-fee="${m.fee}">${m.name} (Fee: ${m.fee}%)</option>`;
                     });
                     document.getElementById('withdraw-method').innerHTML = optionsHtml;
                 });
 
-                // 4. LISTEN TO TASKS (Real-time from Admin)
+                // 4. Tasks
                 onSnapshot(collection(db, "tasks"), (snap) => {
                     let html = '';
                     snap.forEach(d => {
                         let t = d.data();
                         html += `
-                            <div class="list-item">
-                                <div style="display:flex; gap:10px; align-items:center;">
-                                    <div style="width:40px;height:40px;border-radius:10px;background:rgba(59,130,246,0.1);display:flex;justify-content:center;align-items:center;">
-                                        <i class="fa-solid fa-star" style="color:var(--primary-glow);"></i>
+                            <div class="list-item" style="padding:12px;">
+                                <div style="display:flex; gap:12px; align-items:center;">
+                                    <div style="width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,0.1);display:flex;justify-content:center;align-items:center;">
+                                        <i class="fa-solid fa-star" style="color:var(--primary); font-size:18px;"></i>
                                     </div>
-                                    <div><h4 style="font-size:14px;">${t.title}</h4><p style="color:var(--accent); font-size:12px;">+<span class="curr-sym"></span>${t.reward}</p></div>
+                                    <div><h4 style="font-size:14px;">${t.title}</h4><p style="color:var(--accent); font-size:12px; font-weight:600;">+<span class="curr-sym">${appSettings.currencySymbol||'$'}</span>${t.reward}</p></div>
                                 </div>
-                                <a href="${t.link}" target="_blank" class="btn-outline" style="text-decoration:none; padding: 6px 12px;" onclick="claimTask('${d.id}', ${t.reward})">Start</a>
+                                <a href="${t.link}" target="_blank" class="btn-outline" style="text-decoration:none; width:auto; padding:8px 16px;" onclick="claimTask('${d.id}', ${t.reward})">Start</a>
                             </div>
                         `;
                     });
                     document.getElementById('tasks-container').innerHTML = html || '<div style="text-align:center; color:var(--text-muted); font-size:13px;">No tasks available right now.</div>';
-                    document.querySelectorAll('.curr-sym').forEach(el => el.innerText = appSettings.currencySymbol);
                 });
 
-                // 5. LISTEN TO LEADERBOARD (Real-time from Admin/Users)
-                onSnapshot(query(collection(db, "users"), orderBy("total_income", "desc"), limit(5)), (snap) => {
-                    let html = '';
-                    let rank = 1;
-                    snap.forEach(d => {
-                        let u = d.data();
-                        if(u.role !== 'admin') {
-                            html += `
-                                <div class="list-item" style="padding:10px;">
-                                    <div style="display:flex; gap:10px; align-items:center;">
-                                        <div style="width:25px;height:25px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:12px;font-weight:bold;">${rank}</div>
-                                        <span style="font-size:13px; font-weight:500;">${u.name || 'User'}</span>
-                                    </div>
-                                    <span style="color:var(--accent);font-weight:600;font-size:13px;"><span class="curr-sym">${appSettings.currencySymbol}</span>${(u.total_income||0).toFixed(2)}</span>
-                                </div>
-                            `;
-                            rank++;
-                        }
+                // 5. Leaderboard - Top Earners (Limit 20)
+                try {
+                    onSnapshot(query(collection(db, "users"), orderBy("total_income", "desc"), limit(20)), (snap) => {
+                        lbData.earners = [];
+                        snap.forEach(d => { if(d.data().role !== 'admin') lbData.earners.push(d.data()); });
+                        if(activeLbTab === 'earners') renderLeaderboard();
                     });
-                    document.getElementById('leaderboard-list').innerHTML = html || '<p style="text-align:center; font-size:12px;">No data yet.</p>';
-                });
+                } catch(e) {}
 
-                // 6. SETUP USER DATA
+                // 6. Leaderboard - Top Referrers (Limit 20)
+                try {
+                    onSnapshot(query(collection(db, "users"), orderBy("referral_count", "desc"), limit(20)), (snap) => {
+                        lbData.referrers = [];
+                        snap.forEach(d => { if(d.data().role !== 'admin') lbData.referrers.push(d.data()); });
+                        if(activeLbTab === 'referrers') renderLeaderboard();
+                    });
+                } catch(e) {}
+
+                startLbScroll(); // Start auto-scroll for leaderboard
+
+                // 7. USER DATA SETUP
                 await setupUserData();
-                listenToUserHistory();
 
             } catch(e) {
                 console.error("Init Error:", e);
-                document.getElementById('loading-screen').innerHTML = '<h2>Connection Error. Please reopen the app.</h2>';
+                alert("App Error: " + e.message + "\n\nMake sure Anonymous Authentication is enabled in Firebase!");
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
             }
         }
 
-        // Apply settings changes dynamically
-        function applySettingsToUI() {
-            document.querySelectorAll('.curr-sym').forEach(el => el.innerText = appSettings.currencySymbol || '$');
-            document.getElementById('ui-ad-reward').innerText = appSettings.rewardPerAd;
-            document.getElementById('ui-ads-total').innerText = appSettings.dailyAdLimit;
-            document.getElementById('ui-min-withdraw').innerText = appSettings.minWithdraw;
-            document.getElementById('ui-ref-bonus-amt').innerText = appSettings.refBonus;
-            
-            if(currentUser) {
-                document.getElementById('ref-link-input').value = `https://t.me/${appSettings.botUsername}?start=${currentUser.tg_id}`;
-                updateDashboardUI(); // Recalculate progress bar
-            }
-        }
-
-        function injectAdScript() {
-            const container = document.getElementById('ad-script-container');
-            container.innerHTML = ''; // Clear old script
-            if(appSettings.monetagZoneId) {
-                const script = document.createElement('script');
-                script.src = '//libtl.com/sdk.js';
-                script.dataset.zone = appSettings.monetagZoneId;
-                script.dataset.sdk = `show_${appSettings.monetagZoneId}`;
-                container.appendChild(script);
-            }
-        }
-
-        // ================= USER LOGIC =================
         async function setupUserData() {
             const userRef = doc(db, "users", tgUser.id.toString());
-            
-            // Listen to User Data in Real-time!
-            onSnapshot(userRef, async (docSnap) => {
-                let today = new Date().toDateString();
+            const docSnap = await getDoc(userRef);
+            let today = new Date().toDateString();
 
-                if (!docSnap.exists()) {
-                    // Create Account
-                    currentUser = {
-                        tg_id: tgUser.id, name: tgUser.first_name, 
-                        balance: 0, total_income: 0, ad_income: 0, task_income: 0, ref_income: 0,
-                        ads_today: 0, last_ad_date: today, status: 'active'
-                    };
-                    await setDoc(userRef, currentUser);
-                    
-                    if(startParam && startParam != tgUser.id) {
-                        try {
-                            await updateDoc(doc(db, "users", startParam.toString()), {
-                                balance: increment(appSettings.refBonus || 0),
-                                ref_income: increment(appSettings.refBonus || 0),
-                                total_income: increment(appSettings.refBonus || 0)
-                            });
-                        } catch(e){}
-                    }
-                } else {
-                    currentUser = docSnap.data();
-                    // Reset Daily Ads logic
-                    if(currentUser.last_ad_date !== today) {
-                        await updateDoc(userRef, { ads_today: 0, last_ad_date: today });
-                    }
-                }
-
-                if(currentUser.status === 'banned') {
-                    document.body.innerHTML = '<h1 style="color:red; text-align:center; margin-top:50px;">Account Banned!</h1>';
-                    return;
-                }
+            if (!docSnap.exists()) {
+                currentUser = {
+                    tg_id: tgUser.id, name: tgUser.first_name, 
+                    balance: 0, total_income: 0, ad_income: 0, task_income: 0, ref_income: 0,
+                    ads_today: 0, last_ad_date: today, referral_count: 0, status: 'active'
+                };
+                await setDoc(userRef, currentUser);
                 
-                updateDashboardUI();
-                document.getElementById('loading-screen').classList.add('hidden');
+                if(startParam && startParam != tgUser.id) {
+                    try {
+                        await updateDoc(doc(db, "users", startParam.toString()), {
+                            balance: increment(appSettings.refBonus || 0),
+                            ref_income: increment(appSettings.refBonus || 0),
+                            total_income: increment(appSettings.refBonus || 0),
+                            referral_count: increment(1)
+                        });
+                    } catch(e){}
+                }
+            } else {
+                currentUser = docSnap.data();
+                if(currentUser.last_ad_date !== today) {
+                    await updateDoc(userRef, { ads_today: 0, last_ad_date: today });
+                }
+            }
+
+            // Real-time listener for user
+            onSnapshot(userRef, (snap) => {
+                if(snap.exists()) {
+                    currentUser = snap.data();
+                    if(currentUser.status === 'banned') {
+                        document.body.innerHTML = '<h1 style="color:red; text-align:center; margin-top:50px;">Account Banned!</h1>';
+                        return;
+                    }
+                    updateDashboardUI();
+                }
             });
+
+            // History Listener
+            onSnapshot(query(collection(db, "withdraws"), where("user_id", "==", tgUser.id)), (snap) => {
+                let html = '';
+                snap.forEach(d => {
+                    let w = d.data();
+                    let color = w.status === 'Approved' ? 'var(--success)' : (w.status === 'Rejected' ? 'var(--danger)' : 'var(--warning)');
+                    html += `
+                        <div class="list-item" style="padding:12px;">
+                            <div><h4 style="font-size:14px;">${w.method}</h4><p style="font-size:11px; color:var(--text-muted); margin-top:2px;">${w.date}</p></div>
+                            <div style="text-align:right;">
+                                <h4 style="font-size:15px; color:var(--primary); font-weight:700;">${appSettings.currencySymbol||'$'}${w.amount}</h4>
+                                <span style="font-size:11px; font-weight:700; color:${color}; text-transform:uppercase;">${w.status}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('history-container').innerHTML = html || '<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:15px;">No withdrawal history.</div>';
+            });
+
+            applyLanguage();
+            document.getElementById('loading-screen').classList.add('hidden');
+            checkForceJoin();
         }
 
         function updateDashboardUI() {
@@ -481,11 +611,13 @@
             document.getElementById('ui-ref-income').innerText = f(currentUser.ref_income);
             
             document.getElementById('ui-ads-done').innerText = currentUser.ads_today || 0;
-            let pct = ((currentUser.ads_today || 0) / appSettings.dailyAdLimit) * 100;
+            let limit = appSettings.dailyAdLimit || 10;
+            let pct = ((currentUser.ads_today || 0) / limit) * 100;
             document.getElementById('ui-ads-progress').style.width = `${pct > 100 ? 100 : pct}%`;
+            
+            document.getElementById('ref-link-input').value = `https://t.me/${appSettings.botUsername || 'Bot'}?start=${currentUser.tg_id}`;
         }
 
-        // ================= FORCE JOIN =================
         function checkForceJoin() {
             if(forceChannels.length === 0) {
                 document.getElementById('force-join-screen').classList.add('hidden');
@@ -496,9 +628,9 @@
             const isVerified = localStorage.getItem(`join_${tgUser.id}`);
             if(!isVerified) {
                 let html = forceChannels.map(ch => `
-                    <div class="list-item" style="padding: 10px;">
-                        <span style="font-size:13px; font-weight:500;">${ch.name}</span>
-                        <a href="${ch.url}" target="_blank" class="btn-outline" style="padding: 5px 10px; width:auto; text-decoration:none;">Join</a>
+                    <div class="list-item" style="padding: 12px;">
+                        <span style="font-size:14px; font-weight:600;">${ch.name}</span>
+                        <a href="${ch.url}" target="_blank" class="btn-outline" style="padding: 8px 15px; width:auto; text-decoration:none;">Join</a>
                     </div>
                 `).join('');
                 document.getElementById('channels-list').innerHTML = html;
@@ -513,18 +645,14 @@
         window.verifyChannels = () => {
             const btn = document.getElementById('verify-channels-btn');
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
-            setTimeout(() => {
-                localStorage.setItem(`join_${tgUser.id}`, 'true');
-                checkForceJoin();
-            }, 1500);
+            setTimeout(() => { localStorage.setItem(`join_${tgUser.id}`, 'true'); checkForceJoin(); }, 1000);
         };
 
-        // ================= ADS & TASKS =================
         let adCooldown = false;
         window.triggerAd = () => {
             if(adCooldown) return;
-            if(currentUser.ads_today >= appSettings.dailyAdLimit) {
-                return customAlert("Limit Reached", "You have completed today's ad limit.");
+            if(currentUser.ads_today >= (appSettings.dailyAdLimit || 10)) {
+                return customAlert(currentLang==='en'?"Limit Reached":"লিমিট শেষ", currentLang==='en'?"You have completed today's limit.":"আজকের লিমিট শেষ।");
             }
 
             const btn = document.getElementById('btn-watch-ad');
@@ -537,127 +665,89 @@
                     resetAdBtn(btn);
                 });
             } else {
-                setTimeout(() => grantAdReward(), 2000); // Failsafe
+                setTimeout(() => grantAdReward(), 2000); 
             }
         };
 
         async function grantAdReward() {
             try {
-                const userRef = doc(db, "users", tgUser.id.toString());
-                await updateDoc(userRef, {
-                    balance: increment(appSettings.rewardPerAd),
-                    ad_income: increment(appSettings.rewardPerAd),
-                    total_income: increment(appSettings.rewardPerAd),
+                await updateDoc(doc(db, "users", tgUser.id.toString()), {
+                    balance: increment(appSettings.rewardPerAd || 0),
+                    ad_income: increment(appSettings.rewardPerAd || 0),
+                    total_income: increment(appSettings.rewardPerAd || 0),
                     ads_today: increment(1)
                 });
             } catch(e){}
 
             const btn = document.getElementById('btn-watch-ad');
-            adCooldown = true;
-            let time = 30;
-            
+            adCooldown = true; let time = 30;
             const timer = setInterval(() => {
-                time--;
-                btn.innerHTML = `Wait ${time}s`;
-                if(time <= 0) {
-                    clearInterval(timer);
-                    adCooldown = false;
-                    resetAdBtn(btn);
-                }
+                time--; btn.innerHTML = `Wait ${time}s`;
+                if(time <= 0) { clearInterval(timer); adCooldown = false; resetAdBtn(btn); }
             }, 1000);
         }
 
-        function resetAdBtn(btn) { btn.innerHTML = `<i class="fa-solid fa-play"></i> Show Ad Now`; }
+        function resetAdBtn(btn) { btn.innerHTML = `<i class="fa-solid fa-play-circle"></i> ${currentLang==='en'?"Show Ad Now":"অ্যাড দেখুন"}`; }
 
         window.claimTask = (taskId, rewardAmt) => {
-            // Basic UI simulation for task click
             setTimeout(async () => {
                 try {
                     await updateDoc(doc(db, "users", tgUser.id.toString()), {
-                        balance: increment(rewardAmt),
-                        task_income: increment(rewardAmt),
-                        total_income: increment(rewardAmt)
+                        balance: increment(rewardAmt), task_income: increment(rewardAmt), total_income: increment(rewardAmt)
                     });
                     customAlert("Task Completed", `Added ${appSettings.currencySymbol}${rewardAmt}`);
                 } catch(e){}
             }, 5000);
         };
 
-        // ================= WITHDRAWALS =================
         window.openWithdrawModal = () => document.getElementById('modal-withdraw').classList.add('active');
         
         window.calculateWithdraw = () => {
             const select = document.getElementById('withdraw-method');
             const amt = parseFloat(document.getElementById('withdraw-amount').value) || 0;
-            
+            const sym = appSettings.currencySymbol || '$';
             if(select.selectedIndex <= 0) {
                 document.getElementById('ui-withdraw-fee').innerText = `0.00`;
                 document.getElementById('ui-withdraw-receive').innerText = `0.00`;
                 return;
             }
-            
             const feePct = parseFloat(select.options[select.selectedIndex].getAttribute('data-fee')) || 0;
             const feeAmt = (amt * feePct) / 100;
             const receive = amt - feeAmt;
 
-            document.getElementById('ui-withdraw-fee').innerText = `${appSettings.currencySymbol}${feeAmt.toFixed(2)}`;
-            document.getElementById('ui-withdraw-receive').innerText = `${appSettings.currencySymbol}${receive.toFixed(2)}`;
+            document.getElementById('ui-withdraw-fee').innerText = `${sym}${feeAmt.toFixed(2)}`;
+            document.getElementById('ui-withdraw-receive').innerText = `${sym}${receive.toFixed(2)}`;
         };
 
         window.submitWithdraw = async () => {
             const amt = parseFloat(document.getElementById('withdraw-amount').value);
             const addr = document.getElementById('withdraw-address').value;
             const method = document.getElementById('withdraw-method').value;
+            const sym = appSettings.currencySymbol || '$';
             
-            if(!method) return customAlert("Error", "Please select a payout method.");
-            if(isNaN(amt) || amt < appSettings.minWithdraw) return customAlert("Error", `Minimum withdraw is ${appSettings.currencySymbol}${appSettings.minWithdraw}`);
+            if(!method) return customAlert("Error", "Select a payout method.");
+            if(isNaN(amt) || amt < (appSettings.minWithdraw || 0)) return customAlert("Error", `Min withdraw is ${sym}${appSettings.minWithdraw}`);
             if(amt > currentUser.balance) return customAlert("Error", "Insufficient Balance.");
-            if(!addr) return customAlert("Error", "Wallet Address is required.");
+            if(!addr) return customAlert("Error", "Address is required.");
             
             const btn = document.getElementById('btn-submit-withdraw');
-            btn.innerText = "Processing...";
-            btn.disabled = true;
+            btn.innerText = "Processing..."; btn.disabled = true;
 
             try {
                 await updateDoc(doc(db, "users", tgUser.id.toString()), { balance: increment(-amt) });
                 await addDoc(collection(db, "withdraws"), {
                     user_id: tgUser.id, method: method, amount: amt, address: addr, status: 'Pending', date: new Date().toLocaleDateString()
                 });
-                
-                customAlert("Success", "Withdraw request submitted successfully.");
+                customAlert("Success", "Withdraw request submitted.");
                 document.getElementById('modal-withdraw').classList.remove('active');
-            } catch(e) {
-                customAlert("Error", "Failed to submit request.");
-            }
+            } catch(e) { customAlert("Error", "Failed to submit."); }
             
-            btn.innerText = "Submit Request";
-            btn.disabled = false;
+            btn.innerText = "Submit Request"; btn.disabled = false;
         };
 
-        function listenToUserHistory() {
-            onSnapshot(query(collection(db, "withdraws"), where("user_id", "==", tgUser.id)), (snap) => {
-                let html = '';
-                snap.forEach(d => {
-                    let w = d.data();
-                    let color = w.status === 'Approved' ? 'var(--success)' : (w.status === 'Rejected' ? 'var(--danger)' : 'var(--warning)');
-                    html += `
-                        <div class="list-item" style="padding:10px;">
-                            <div><h4 style="font-size:14px;">${w.method}</h4><p style="font-size:11px; color:var(--text-muted);">${w.date}</p></div>
-                            <div style="text-align:right;">
-                                <h4 style="font-size:14px; color:var(--primary-glow);">${appSettings.currencySymbol}${w.amount}</h4>
-                                <span style="font-size:11px; font-weight:600; color:${color};">${w.status}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-                document.getElementById('history-container').innerHTML = html || '<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:20px;">No withdrawal history.</div>';
-            });
-        }
-
-        // ================= REFERRAL =================
         window.copyReferral = () => {
             document.getElementById('ref-link-input').select(); document.execCommand('copy');
-            tg.showAlert("Link Copied!");
+            tg.showAlert(currentLang==='en'?"Link Copied!":"কপি হয়েছে!");
         };
         window.shareReferral = () => {
             const link = document.getElementById('ref-link-input').value;
