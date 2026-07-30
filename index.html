@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* ================= PREMIUM CSS VARIABLES ================= */
         :root {
             --bg-dark: #09090b; --bg-card: rgba(24, 24, 27, 0.85);
             --text-main: #ffffff; --text-muted: #a1a1aa;
@@ -27,7 +26,6 @@
         .bg-mesh { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0, transparent 50%), radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0, transparent 50%); filter: blur(50px); animation: pulseBg 8s infinite alternate; }
         @keyframes pulseBg { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
-        /* UI Components */
         .glass-panel { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
         .container { padding: 15px; }
         .hidden { display: none !important; }
@@ -39,32 +37,30 @@
         .btn-glow:active { transform: scale(0.96); box-shadow: none; }
         .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 10px 15px; border-radius: 12px; font-weight: 500; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; transition: 0.3s; }
 
-        /* Header & Profile */
+        /* Profile & Header */
         .header-profile { display: flex; align-items: center; gap: 12px; }
         .avatar-img { width: 48px; height: 48px; border-radius: 14px; border: 2px solid rgba(255,255,255,0.1); object-fit: cover; background: #18181b; }
         .lang-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: white; padding: 6px 12px; border-radius: 10px; font-size: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
         
-        /* Stats & Lists */
+        /* Stats */
         .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
         .stat-box { padding: 12px 5px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); text-align: center; }
         .list-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 14px; padding: 12px 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
         
-        /* Progress Bar */
         .progress-bg { background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; margin-top: 8px; overflow: hidden; width: 100%;}
         .progress-fill { background: linear-gradient(90deg, var(--primary), var(--secondary)); height: 100%; width: 0%; border-radius: 10px; transition: 0.5s; }
 
-        /* Floating Navigation (PREMIUM SIZE) */
+        /* Navigation */
         .nav-wrapper { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: 24px; display: flex; justify-content: space-around; padding: 12px 10px; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); font-size: 12px; font-weight: 500; cursor: pointer; width: 65px; transition: 0.3s; }
         .nav-item i { font-size: 22px; transition: 0.3s; }
         .nav-item.active { color: var(--primary); }
         .nav-item.active i { transform: translateY(-4px) scale(1.15); filter: drop-shadow(0 4px 6px rgba(59, 130, 246, 0.4)); }
         
-        /* Tabs */
         .tab-content { display: none; opacity: 0; transform: translateY(10px); transition: 0.3s; }
         .tab-content.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Leaderboard Specifics */
+        /* Leaderboard */
         .lb-tabs { display: flex; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 4px; margin-bottom: 15px; }
         .lb-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 10px; transition: 0.3s; }
         .lb-tab.active { background: var(--primary); color: white; }
@@ -73,11 +69,10 @@
         .lb-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
         .crown-icon { font-size: 16px; margin-right: 5px; }
 
-        /* Forms */
+        /* Inputs & Modals */
         .input-box { width: 100%; padding: 14px; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); border-radius: 14px; color: white; font-size: 14px; outline: none; margin-bottom: 15px; font-family: var(--font-main);}
         select.input-box { appearance: none; background-color: rgba(0,0,0,0.9); }
         
-        /* Modals & Loaders */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
         .modal-content { background: var(--bg-card); border: 1px solid var(--glass-border); width: 100%; max-width: 360px; border-radius: 24px; padding: 24px; position: relative;}
@@ -119,14 +114,12 @@
         <!-- HEADER (Profile + Language Toggle) -->
         <div class="container flex-between" style="padding-bottom: 0; padding-top: 20px;">
             <div class="header-profile">
-                <!-- Fallback will be handled via JS based on actual Telegram Name -->
                 <img src="" id="ui-profile-pic" class="avatar-img">
                 <div>
                     <h3 id="ui-user-name" style="font-size: 16px; font-weight: 600;">User</h3>
                     <p style="font-size: 11px; color: var(--accent);">ID: <span id="ui-user-id">...</span></p>
                 </div>
             </div>
-            <!-- Language Button Restored -->
             <button class="lang-btn" onclick="toggleLanguage()" id="lang-btn">EN</button>
         </div>
 
@@ -168,13 +161,11 @@
 
             <!-- Leaderboard Section -->
             <div class="glass-panel" style="padding: 15px;">
-                <!-- Tabs -->
                 <div class="lb-tabs">
                     <div class="lb-tab active" id="tab-earners" onclick="switchLbTab('earners')" data-i18n="top_earners">Top Earners</div>
                     <div class="lb-tab" id="tab-referrers" onclick="switchLbTab('referrers')" data-i18n="top_ref">Top Referrers</div>
                 </div>
                 
-                <!-- Auto Scrolling Container -->
                 <div class="lb-container" id="leaderboard-container">
                     <div id="leaderboard-list">
                         <div style="text-align:center; padding: 20px; color: var(--text-muted); font-size: 12px;">Loading...</div>
@@ -226,25 +217,58 @@
             </div>
         </div>
 
-        <!-- ================= PROFILE TAB ================= -->
+        <!-- ================= PROFILE TAB (100% RESTORED) ================= -->
         <div id="tab-profile" class="tab-content container">
-            <div class="glass-panel flex-between" style="align-items:center;">
-                <div>
-                    <h3 style="font-size:16px;" data-i18n="ref_program">Referral Program</h3>
-                    <p style="font-size: 12px; color:var(--text-muted); margin-top: 3px;">Earn <span class="curr-sym">$</span><span id="ui-ref-bonus-amt">0.00</span> <span data-i18n="per_invite">per invite!</span></p>
-                </div>
-                <div style="width: 40px; height: 40px; background: rgba(59,130,246,0.1); border-radius: 12px; display:flex; justify-content:center; align-items:center;">
-                    <i class="fa-solid fa-user-plus text-gradient" style="font-size:18px;"></i>
-                </div>
-            </div>
             
-            <div class="glass-panel">
-                <input type="text" id="ref-link-input" class="input-box" readonly value="Loading..." style="padding: 14px; font-size: 12px; margin-bottom: 12px;">
-                <div class="flex-between" style="gap: 12px;">
-                    <button class="btn-outline" style="flex:1;" onclick="copyReferral()"><i class="fa-solid fa-copy"></i> <span data-i18n="copy">Copy Link</span></button>
-                    <button class="btn-glow" style="flex:1; padding:12px;" onclick="shareReferral()"><i class="fa-solid fa-share-nodes"></i> <span data-i18n="share">Share</span></button>
+            <!-- Profile Header Info -->
+            <div class="glass-panel flex-between" style="align-items:center;">
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <img src="" id="prof-tab-pic" class="avatar-img">
+                    <div>
+                        <h3 id="prof-tab-name" style="font-size: 15px;">User</h3>
+                        <p style="font-size: 11px; color: var(--text-muted);">@<span id="prof-tab-username">username</span></p>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <p style="font-size:11px; color:var(--text-muted);">Balance</p>
+                    <h3 class="text-gradient" style="font-size:16px;"><span class="curr-sym">$</span><span id="prof-tab-bal">0.00</span></h3>
                 </div>
             </div>
+
+            <!-- Shortcut Menus -->
+            <div class="stat-grid" style="grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:15px;">
+                <div class="stat-box" onclick="switchTab('wallet')" style="cursor:pointer;">
+                    <i class="fa-solid fa-clock-rotate-left" style="color:var(--primary); font-size:20px;"></i>
+                    <p style="font-size:12px; margin-top:5px;">History</p>
+                </div>
+                <div class="stat-box" onclick="switchTab('work')" style="cursor:pointer;">
+                    <i class="fa-solid fa-list-check" style="color:var(--warning); font-size:20px;"></i>
+                    <p style="font-size:12px; margin-top:5px;">My Tasks</p>
+                </div>
+            </div>
+
+            <!-- Referral System -->
+            <div class="glass-panel">
+                <div class="flex-between" style="margin-bottom: 10px;">
+                    <div>
+                        <h3 style="font-size:15px;" data-i18n="ref_program">Referral Program</h3>
+                        <p style="font-size: 11px; color:var(--text-muted);">Earn <span class="curr-sym">$</span><span id="ui-ref-bonus-amt">0.00</span> <span data-i18n="per_invite">per invite!</span></p>
+                    </div>
+                    <i class="fa-solid fa-users text-gradient" style="font-size:20px;"></i>
+                </div>
+                <input type="text" id="ref-link-input" class="input-box" readonly value="Loading..." style="padding: 12px; font-size: 12px; margin-bottom: 12px;">
+                <div class="flex-between" style="gap: 12px;">
+                    <button class="btn-outline" style="flex:1;" onclick="copyReferral()"><i class="fa-solid fa-copy"></i> <span data-i18n="copy">Copy</span></button>
+                    <button class="btn-glow" style="flex:1; padding:10px;" onclick="shareReferral()"><i class="fa-solid fa-share-nodes"></i> <span data-i18n="share">Share</span></button>
+                </div>
+            </div>
+
+            <!-- Community & Support (Social Links) -->
+            <h3 style="margin: 20px 0 10px; font-size: 16px;">Community & Support</h3>
+            <div id="social-links-container">
+                <div style="text-align:center; color:var(--text-muted); font-size:12px;">Loading channels...</div>
+            </div>
+
         </div>
 
         <!-- LARGE PREMIUM NAV -->
@@ -333,13 +357,15 @@
         };
         let currentLang = localStorage.getItem('lang') || 'en';
 
-        // Profile Picture Logic (Telegram URL or Dynamic Initial)
+        // Set Dynamic Profile Picture 
         let picUrl = tgUser.photo_url;
         if(!picUrl) {
             let initial = encodeURIComponent(tgUser.first_name ? tgUser.first_name.charAt(0).toUpperCase() : 'U');
             picUrl = `https://ui-avatars.com/api/?name=${initial}&background=18181b&color=3b82f6&size=100&bold=true`;
         }
         document.getElementById('ui-profile-pic').src = picUrl;
+        document.getElementById('prof-tab-pic').src = picUrl; // For profile tab
+        document.getElementById('prof-tab-username').innerText = tgUser.username || tgUser.id;
 
         window.toggleLanguage = () => {
             currentLang = currentLang === 'en' ? 'bn' : 'en';
@@ -368,7 +394,7 @@
             document.querySelector(`.nav-item[data-tab="${tabId}"]`).classList.add('active');
         };
 
-        // Leaderboard Logic (Tabs, State, Auto-scroll, Crowns)
+        // Leaderboard Logic & Crowns
         let lbData = { earners: [], referrers: [] };
         let activeLbTab = 'earners';
 
@@ -401,7 +427,6 @@
             data.forEach((u, index) => {
                 let rank = index + 1;
                 let val = activeLbTab === 'earners' ? (u[valKey]||0).toFixed(2) : (u[valKey]||0);
-                
                 html += `
                     <div class="list-item" style="padding:10px 15px;">
                         <div style="display:flex; gap:12px; align-items:center;">
@@ -415,26 +440,44 @@
             document.getElementById('leaderboard-list').innerHTML = html;
         }
 
-        // Leaderboard Auto-Scroll (Smooth JS implementation)
+        // Leaderboard Auto-Scroll (Smooth JS without flicker)
         let scrollTimer;
         function startLbScroll() {
             const container = document.getElementById('leaderboard-container');
             clearInterval(scrollTimer);
             scrollTimer = setInterval(() => {
                 if (container.scrollTop + container.clientHeight >= container.scrollHeight - 2) {
-                    container.scrollTop = 0; // Reset to top
+                    container.scrollTop = 0; 
                 } else {
-                    container.scrollTop += 1; // Scroll down 1px
+                    container.scrollTop += 1; 
                 }
-            }, 50); // Speed
+            }, 50); 
         }
-        // Pause scroll on touch/hover
         document.getElementById('leaderboard-container').addEventListener('mouseenter', () => clearInterval(scrollTimer));
         document.getElementById('leaderboard-container').addEventListener('mouseleave', startLbScroll);
         document.getElementById('leaderboard-container').addEventListener('touchstart', () => clearInterval(scrollTimer));
         document.getElementById('leaderboard-container').addEventListener('touchend', startLbScroll);
 
-        // App Initialization
+        // Social Links Renderer (For Profile Tab)
+        function renderSocialLinks() {
+            // Using default links if admin hasn't set any, just so it never looks blank.
+            let links = appSettings.socialLinks || [
+                { name: "Official Channel", url: "https://t.me/SAHABI_TECH", icon: "fa-telegram", color: "#3b82f6" },
+                { name: "YouTube Channel", url: "https://youtube.com", icon: "fa-youtube", color: "#ef4444" }
+            ];
+            let html = links.map(link => `
+                <div class="list-item" style="padding: 10px 15px;">
+                    <div style="display:flex; align-items:center; gap: 10px;">
+                        <i class="fa-brands ${link.icon}" style="color: ${link.color}; font-size: 20px;"></i>
+                        <span style="font-weight: 500; font-size: 14px;">${link.name}</span>
+                    </div>
+                    <a href="${link.url}" target="_blank" class="btn-outline" style="width: auto; padding: 6px 12px; text-decoration: none;">View</a>
+                </div>
+            `).join('');
+            document.getElementById('social-links-container').innerHTML = html;
+        }
+
+        // Initialize Firebase safely
         async function initApp() {
             try {
                 app = initializeApp(firebaseConfig);
@@ -453,6 +496,8 @@
                         document.getElementById('ui-min-withdraw').innerText = appSettings.minWithdraw || 0;
                         document.getElementById('ui-ref-bonus-amt').innerText = appSettings.refBonus || 0;
                         
+                        renderSocialLinks();
+
                         if(appSettings.monetagZoneId) {
                             document.getElementById('ad-script-container').innerHTML = `<script src='//libtl.com/sdk.js' data-zone='${appSettings.monetagZoneId}' data-sdk='show_${appSettings.monetagZoneId}'><\/script>`;
                         }
@@ -461,7 +506,7 @@
                             updateDashboardUI();
                         }
                     }
-                });
+                }, (e) => console.log(e));
 
                 // 2. Channels
                 onSnapshot(collection(db, "channels"), (snap) => {
@@ -500,32 +545,28 @@
                     document.getElementById('tasks-container').innerHTML = html || '<div style="text-align:center; color:var(--text-muted); font-size:13px;">No tasks available right now.</div>';
                 });
 
-                // 5. Leaderboard - Top Earners (Limit 20)
-                try {
-                    onSnapshot(query(collection(db, "users"), orderBy("total_income", "desc"), limit(20)), (snap) => {
-                        lbData.earners = [];
-                        snap.forEach(d => { if(d.data().role !== 'admin') lbData.earners.push(d.data()); });
-                        if(activeLbTab === 'earners') renderLeaderboard();
-                    });
-                } catch(e) {}
+                // 5. Leaderboard - Top Earners
+                onSnapshot(query(collection(db, "users"), orderBy("total_income", "desc"), limit(20)), (snap) => {
+                    lbData.earners = [];
+                    snap.forEach(d => { if(d.data().role !== 'admin') lbData.earners.push(d.data()); });
+                    if(activeLbTab === 'earners') renderLeaderboard();
+                }, (e) => console.log(e));
 
-                // 6. Leaderboard - Top Referrers (Limit 20)
-                try {
-                    onSnapshot(query(collection(db, "users"), orderBy("referral_count", "desc"), limit(20)), (snap) => {
-                        lbData.referrers = [];
-                        snap.forEach(d => { if(d.data().role !== 'admin') lbData.referrers.push(d.data()); });
-                        if(activeLbTab === 'referrers') renderLeaderboard();
-                    });
-                } catch(e) {}
+                // 6. Leaderboard - Top Referrers
+                onSnapshot(query(collection(db, "users"), orderBy("referral_count", "desc"), limit(20)), (snap) => {
+                    lbData.referrers = [];
+                    snap.forEach(d => { if(d.data().role !== 'admin') lbData.referrers.push(d.data()); });
+                    if(activeLbTab === 'referrers') renderLeaderboard();
+                }, (e) => console.log(e));
 
-                startLbScroll(); // Start auto-scroll for leaderboard
+                startLbScroll();
 
                 // 7. USER DATA SETUP
                 await setupUserData();
 
             } catch(e) {
                 console.error("Init Error:", e);
-                alert("App Error: " + e.message + "\n\nMake sure Anonymous Authentication is enabled in Firebase!");
+                alert("App Error: Connection failed. \nMake sure you updated Firestore Rules exactly as instructed.");
                 document.getElementById('loading-screen').classList.add('hidden');
                 document.getElementById('main-app').classList.remove('hidden');
             }
@@ -544,6 +585,7 @@
                 };
                 await setDoc(userRef, currentUser);
                 
+                // Process Referral and Send Message
                 if(startParam && startParam != tgUser.id) {
                     try {
                         await updateDoc(doc(db, "users", startParam.toString()), {
@@ -552,7 +594,13 @@
                             total_income: increment(appSettings.refBonus || 0),
                             referral_count: increment(1)
                         });
-                    } catch(e){}
+
+                        // Telegram Message to Referrer
+                        if(appSettings.botToken) {
+                            let msg = `🎉 অভিনন্দন! আপনার একটি নতুন রেফার হয়েছে।\n👤 নাম: ${tgUser.first_name}\n💰 আপনি পেয়েছেন: ${appSettings.currencySymbol||'$'}${appSettings.refBonus||0} বোনাস!`;
+                            fetch(`https://api.telegram.org/bot${appSettings.botToken}/sendMessage?chat_id=${startParam}&text=${encodeURIComponent(msg)}`).catch(e=>console.log("Msg error", e));
+                        }
+                    } catch(e){ console.log("Ref error", e); }
                 }
             } else {
                 currentUser = docSnap.data();
@@ -602,10 +650,13 @@
             const f = (n) => parseFloat(n||0).toFixed(2);
             
             document.getElementById('ui-user-name').innerText = currentUser.name;
+            document.getElementById('prof-tab-name').innerText = currentUser.name;
             document.getElementById('ui-user-id').innerText = currentUser.tg_id;
             
             document.getElementById('ui-main-balance').innerText = f(currentUser.balance);
+            document.getElementById('prof-tab-bal').innerText = f(currentUser.balance);
             document.getElementById('ui-wallet-balance').innerText = f(currentUser.balance);
+            
             document.getElementById('ui-ad-income').innerText = f(currentUser.ad_income);
             document.getElementById('ui-task-income').innerText = f(currentUser.task_income);
             document.getElementById('ui-ref-income').innerText = f(currentUser.ref_income);
