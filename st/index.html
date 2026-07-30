@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Earn - Admin Panel</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #09090b; --bg-panel: rgba(24, 24, 27, 0.85);
+            --text-main: #ffffff; --text-muted: #a1a1aa;
+            --primary: #3b82f6; --secondary: #8b5cf6;
+            --success: #10b981; --danger: #ef4444; --warning: #f59e0b;
+            --border: rgba(255, 255, 255, 0.08);
+            --font: 'Outfit', sans-serif;
+            --sidebar-width: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font); }
+        body { background: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
+
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0, transparent 50%), radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0, transparent 50%); filter: blur(60px); animation: pulse 10s alternate infinite; }
+        @keyframes pulse { to { transform: scale(1.05); } }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        /* Login */
+        #login-screen { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; background: var(--bg-dark); z-index: 9999; padding: 20px; }
+        .login-box { background: var(--bg-panel); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 40px; border-radius: 24px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        
+        /* Layout */
+        #app-layout { display: none; min-height: 100vh; }
+        .sidebar { width: var(--sidebar-width); background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(20px); border-right: 1px solid var(--border); position: fixed; height: 100vh; padding: 20px 0; display: flex; flex-direction: column; transition: 0.3s; z-index: 2000; overflow-y: auto; }
+        .sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; text-align: center; position: relative; }
+        .nav-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; color: var(--text-muted); cursor: pointer; transition: 0.3s; font-weight: 500; border-right: 3px solid transparent; }
+        .nav-item:hover, .nav-item.active { color: var(--text-main); background: rgba(255,255,255,0.05); border-right-color: var(--primary); }
+        .nav-item i { width: 20px; text-align: center; color: var(--primary); }
+        .mobile-menu-btn { display: none; font-size: 24px; cursor: pointer; color: var(--primary); }
+
+        .main-content { margin-left: var(--sidebar-width); padding: 20px; width: calc(100% - var(--sidebar-width)); min-height: 100vh; transition: 0.3s; }
+        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* UI */
+        .glass-card { background: var(--bg-panel); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 20px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { display: flex; align-items: center; gap: 15px; }
+        .stat-icon { width: 50px; height: 50px; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 24px; background: rgba(59, 130, 246, 0.1); color: var(--primary); }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; min-width: 600px; }
+        th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+        th { color: var(--text-muted); font-weight: 500; text-transform: uppercase; font-size: 11px; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        .table-container { overflow-x: auto; }
+
+        .badge { padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block;}
+        .badge-success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .badge-primary { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
+
+        .input-group { margin-bottom: 15px; text-align: left; width: 100%; }
+        .input-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 5px; }
+        .input-control { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px; color: white; outline: none; transition: 0.3s; font-family: var(--font); }
+        .input-control:focus { border-color: var(--primary); }
+        textarea.input-control { resize: vertical; min-height: 100px; }
+        
+        .btn { padding: 10px 20px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; color: white; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+        .btn-danger { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .btn-success { background: rgba(16, 185, 129, 0.2); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: white; }
+
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 15px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--bg-panel); border: 1px solid var(--border); width: 100%; max-width: 450px; border-radius: 20px; padding: 20px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 15px; right: 15px; cursor: pointer; color: var(--text-muted); font-size: 20px; }
+
+        /* Toast */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 4000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: rgba(24, 24, 27, 0.95); border-left: 4px solid var(--primary); padding: 15px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); color: white; display: flex; align-items: center; gap: 10px; animation: slideIn 0.3s forwards; font-size: 13px; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        
+        /* Mobile */
+        @media (max-width: 900px) { 
+            .settings-grid { grid-template-columns: 1fr; } 
+            .sidebar { transform: translateX(-100%); z-index: 9999;} 
+            .sidebar.active { transform: translateX(0); }
+            .main-content{ margin-left:0; width:100%; padding:15px; } 
+            .mobile-menu-btn { display: block; } 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+    <div id="toast-container"></div>
+
+    <!-- ================= LOGIN SCREEN ================= -->
+    <div id="login-screen">
+        <div class="login-box">
+            <h2 style="margin-bottom: 20px;">Admin <span style="color: var(--primary);">Portal</span></h2>
+            <div class="input-group"><input type="email" id="admin-email" class="input-control" placeholder="Admin Email"></div>
+            <div class="input-group"><input type="password" id="admin-password" class="input-control" placeholder="Password"></div>
+            <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px;" onclick="loginAdmin()">
+                <i class="fa-solid fa-lock"></i> Secure Login
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= MAIN LAYOUT ================= -->
+    <div id="app-layout">
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin<span style="color: var(--primary);">Panel</span></h2>
+                <p style="font-size: 11px; color: var(--success);"><i class="fa-solid fa-circle"></i> System Online</p>
+                <i class="fa-solid fa-times mobile-menu-btn" style="position: absolute; right: 15px; top: 0;" onclick="toggleSidebar()"></i>
+            </div>
+            
+            <div class="nav-item active" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</div>
+            <div class="nav-item" onclick="switchTab('users')"><i class="fa-solid fa-users"></i> Users Control</div>
+            <div class="nav-item" onclick="switchTab('tasks')"><i class="fa-solid fa-briefcase"></i> Tasks</div>
+            <div class="nav-item" onclick="switchTab('withdraws')"><i class="fa-solid fa-money-bill-transfer"></i> Withdrawals <span class="badge badge-warning" id="badge-pending" style="margin-left:auto;">0</span></div>
+            <div class="nav-item" onclick="switchTab('methods')"><i class="fa-solid fa-credit-card"></i> Payout Methods</div>
+            <div class="nav-item" onclick="switchTab('channels')"><i class="fa-brands fa-telegram"></i> Force Join</div>
+            <div class="nav-item" onclick="switchTab('broadcast')"><i class="fa-solid fa-bullhorn"></i> Broadcast</div>
+            <div class="nav-item" onclick="switchTab('settings')"><i class="fa-solid fa-gear"></i> Settings & Links</div>
+            
+            <div style="margin-top: auto; padding: 20px;">
+                <button class="btn btn-danger" style="width: 100%; justify-content: center;" onclick="logoutAdmin()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-header">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fa-solid fa-bars mobile-menu-btn" onclick="toggleSidebar()"></i>
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+                <h4 id="admin-name-display" style="font-size: 13px; color: var(--text-muted);">Loading...</h4>
+            </div>
+
+            <!-- TAB: DASHBOARD -->
+            <div id="tab-dashboard" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        <div><p style="font-size: 12px; color: var(--text-muted);">Total Users</p><h2 id="dash-tot-users">0</h2></div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon" style="color: var(--success); background: rgba(16, 185, 129, 0.1);"><i class="fa-solid fa-wallet"></i></div>
+                        <div><p style="font-size: 12px; color: var(--text-muted);">User Balances</p><h2>$<span id="dash-tot-bal">0.00</span></h2></div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon" style="color: var(--warning); background: rgba(245, 158, 11, 0.1);"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div><p style="font-size: 12px; color: var(--text-muted);">Pending Withdraw</p><h2 id="dash-pen-with">0</h2></div>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <h3>Recent Users</h3>
+                    <div id="dash-recent-users" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <!-- TAB: USERS -->
+            <div id="tab-users" class="tab-content">
+                <div class="glass-card">
+                    <div class="input-group"><input type="text" id="search-user" class="input-control" placeholder="Search by Telegram ID or Name..." onkeyup="filterUsers()"></div>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>User</th><th>Telegram ID</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="users-table-body"><tr><td colspan="5">Loading...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: TASKS -->
+            <div id="tab-tasks" class="tab-content">
+                <div class="glass-card">
+                    <button class="btn btn-primary" onclick="openModal('modal-task')">+ Create Task</button>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Title</th><th>Category</th><th>Reward</th><th>Actions</th></tr></thead>
+                            <tbody id="tasks-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: WITHDRAWS -->
+            <div id="tab-withdraws" class="tab-content">
+                <div class="glass-card">
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button class="btn btn-sm btn-primary" onclick="loadWithdraws('Pending')">Pending</button>
+                        <button class="btn btn-sm btn-outline" onclick="loadWithdraws('Approved')">Approved</button>
+                        <button class="btn btn-sm btn-outline" onclick="loadWithdraws('Rejected')">Rejected</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>User ID</th><th>Method</th><th>Address</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="withdraws-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: METHODS -->
+            <div id="tab-methods" class="tab-content">
+                <div class="glass-card">
+                    <button class="btn btn-primary" onclick="openModal('modal-method')">+ Add Payout Method</button>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Method Name</th><th>Logo URL</th><th>Fee (%)</th><th>Actions</th></tr></thead>
+                            <tbody id="methods-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: CHANNELS (FORCE JOIN) -->
+            <div id="tab-channels" class="tab-content">
+                <div class="glass-card">
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Users must join these channels to access the bot.</p>
+                    <button class="btn btn-primary" onclick="openModal('modal-channel')">+ Add Channel</button>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Channel Name</th><th>Link / Username</th><th>Actions</th></tr></thead>
+                            <tbody id="channels-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: BROADCAST -->
+            <div id="tab-broadcast" class="tab-content">
+                <div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+                    <h3 style="margin-bottom: 20px;"><i class="fa-solid fa-paper-plane" style="color: var(--primary);"></i> Send Broadcast</h3>
+                    
+                    <div class="input-group"><label>Image URL (Optional)</label><input type="text" id="bc-image" class="input-control" placeholder="https://example.com/image.jpg"></div>
+                    <div class="input-group"><label>Message Content (HTML Allowed)</label><textarea id="bc-text" class="input-control" placeholder="Hello! Big update today..."></textarea></div>
+                    
+                    <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                        <div class="input-group" style="flex:1; min-width:150px;"><label>Button Name (Optional)</label><input type="text" id="bc-btn-name" class="input-control" placeholder="Open App"></div>
+                        <div class="input-group" style="flex:1; min-width:150px;"><label>Button Link</label><input type="text" id="bc-btn-link" class="input-control" placeholder="https://t.me/yourbot/app"></div>
+                    </div>
+
+                    <button class="btn btn-primary" id="btn-send-bc" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="sendBroadcast()">Send to All Users</button>
+                    <p id="bc-status" style="font-size: 12px; color: var(--warning); margin-top: 10px; text-align: center; font-weight:bold;"></p>
+                </div>
+            </div>
+
+            <!-- TAB: SETTINGS -->
+            <div id="tab-settings" class="tab-content">
+                <div class="glass-card">
+                    <h3 style="margin-bottom: 20px; color:var(--primary);">System Configuration</h3>
+                    <div class="settings-grid">
+                        <div class="input-group"><label>Bot Token</label><input type="text" id="set-bot-token" class="input-control"></div>
+                        <div class="input-group"><label>Bot Username (Without @)</label><input type="text" id="set-bot-user" class="input-control" placeholder="Money_banglabot"></div>
+                        
+                        <div class="input-group"><label>Monetag Zone ID</label><input type="text" id="set-zone-id" class="input-control" placeholder="8865485"></div>
+                        <div class="input-group"><label>Reward Per Ad</label><input type="number" id="set-ad-reward" class="input-control" step="0.01"></div>
+                        
+                        <div class="input-group"><label>Daily Ads Limit</label><input type="number" id="set-ad-limit" class="input-control"></div>
+                        <div class="input-group"><label>Referral Bonus</label><input type="number" id="set-ref-bonus" class="input-control" step="0.01"></div>
+                        
+                        <div class="input-group"><label>Min Withdraw</label><input type="number" id="set-min-with" class="input-control"></div>
+                        <div class="input-group"><label>Currency Symbol</label><input type="text" id="set-currency" class="input-control" placeholder="$"></div>
+
+                        <div class="input-group"><label>App Theme Color (Primary)</label><input type="color" id="set-theme-color" class="input-control" style="padding: 5px; height: 45px; cursor: pointer;"></div>
+                    </div>
+
+                    <h4 style="margin: 25px 0 15px; color:var(--primary); border-top: 1px solid var(--border); padding-top: 15px;">Social Media & Support Links</h4>
+                    <div class="settings-grid">
+                        <div class="input-group"><label>Facebook Page URL</label><input type="text" id="set-fb-page" class="input-control" placeholder="https://facebook.com/..."></div>
+                        <div class="input-group"><label>Facebook Group URL</label><input type="text" id="set-fb-group" class="input-control" placeholder="https://facebook.com/groups/..."></div>
+                        <div class="input-group"><label>YouTube Channel URL</label><input type="text" id="set-yt-channel" class="input-control" placeholder="https://youtube.com/..."></div>
+                        <div class="input-group"><label>Telegram Channel URL</label><input type="text" id="set-tg-channel" class="input-control" placeholder="https://t.me/..."></div>
+                        <div class="input-group"><label>Telegram Group URL</label><input type="text" id="set-tg-group" class="input-control" placeholder="https://t.me/..."></div>
+                    </div>
+
+                    <button class="btn btn-primary" style="margin-top: 15px; width:100%; justify-content:center;" onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <!-- ================= MODALS ================= -->
+    <!-- User Modal -->
+    <div id="modal-user" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fa-solid fa-times close-btn" onclick="closeModal('modal-user')"></i>
+            <h3>Manage User</h3>
+            <p id="edit-user-id" style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;"></p>
+            <div class="input-group"><label>Add/Deduct Balance (Use - for deduct)</label><input type="number" id="edit-bal-val" class="input-control" step="0.01"></div>
+            <button class="btn btn-primary" style="margin-bottom: 15px; width:100%; justify-content:center;" onclick="updateUserBalance()">Update Balance</button>
+            <button class="btn btn-danger" style="width:100%; justify-content:center;" id="btn-ban-user" onclick="toggleBanUser()">Ban User</button>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="modal-task" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fa-solid fa-times close-btn" onclick="closeModal('modal-task')"></i>
+            <h3>Create Task</h3>
+            <div class="input-group"><label>Title</label><input type="text" id="task-title" class="input-control"></div>
+            <div class="input-group"><label>Category</label><select id="task-cat" class="input-control"><option>Telegram</option><option>YouTube</option><option>Website</option></select></div>
+            <div class="input-group"><label>Reward ($)</label><input type="number" id="task-reward" class="input-control" step="0.01"></div>
+            <div class="input-group"><label>Link URL</label><input type="text" id="task-link" class="input-control"></div>
+            <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveTask()">Save Task</button>
+        </div>
+    </div>
+
+    <!-- Withdraw Action Modal -->
+    <div id="modal-withdraw-action" class="modal-overlay">
+        <div class="modal-content" style="text-align: center;">
+            <i class="fa-solid fa-times close-btn" onclick="closeModal('modal-withdraw-action')"></i>
+            <h3>Process Withdrawal</h3>
+            <div style="margin: 20px 0; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px;">
+                <p>UID: <strong id="w-user"></strong></p>
+                <p>Amount: <strong id="w-amt" style="color:var(--primary); font-size: 20px;"></strong></p>
+                <p>Address: <br><span id="w-addr" style="font-size: 13px; word-break: break-all; color: var(--warning);"></span></p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-success" style="flex:1; justify-content:center;" onclick="actionWithdraw('Approved')">Approve</button>
+                <button class="btn btn-danger" style="flex:1; justify-content:center;" onclick="actionWithdraw('Rejected')">Reject (Refund)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Channel Modal -->
+    <div id="modal-channel" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fa-solid fa-times close-btn" onclick="closeModal('modal-channel')"></i>
+            <h3>Add Force Join Channel</h3>
+            <div class="input-group"><label>Channel Name</label><input type="text" id="ch-name" class="input-control" placeholder="Official Updates"></div>
+            <div class="input-group"><label>Invite Link or Username</label><input type="text" id="ch-url" class="input-control" placeholder="https://t.me/..."></div>
+            <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveChannel()">Add Channel</button>
+        </div>
+    </div>
+
+    <!-- Method Modal -->
+    <div id="modal-method" class="modal-overlay">
+        <div class="modal-content">
+            <i class="fa-solid fa-times close-btn" onclick="closeModal('modal-method')"></i>
+            <h3>Add Payout Method</h3>
+            <div class="input-group"><label>Method Name</label><input type="text" id="meth-name" class="input-control" placeholder="USDT, bKash"></div>
+            <div class="input-group"><label>Logo URL</label><input type="text" id="meth-logo" class="input-control" placeholder="https://link/image.png"></div>
+            <div class="input-group"><label>Fee (%)</label><input type="number" id="meth-fee" class="input-control" value="0"></div>
+            <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveMethod()">Add Method</button>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT & FIREBASE V10 ================= -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, onSnapshot, getDocs, orderBy, deleteDoc, addDoc, increment, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDffxjfy2HYV_cDLTfbf8fNEpSEGVWs5pI",
+            authDomain: "sts-test-tgbot.firebaseapp.com",
+            databaseURL: "https://sts-test-tgbot-default-rtdb.firebaseio.com",
+            projectId: "sts-test-tgbot",
+            storageBucket: "sts-test-tgbot.firebasestorage.app",
+            messagingSenderId: "650507173948",
+            appId: "1:650507173948:web:92d64c582672090853c339"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentAdmin = null;
+        let allUsers = [];
+        let appSettings = {};
+
+        window.showToast = (msg, type='success') => {
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.innerHTML = `<i class="fa-solid ${type==='success'?'fa-check-circle':'fa-circle-exclamation'}" style="color:var(--${type});"></i> ${msg}`;
+            document.getElementById('toast-container').appendChild(t);
+            setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 3000);
+        };
+
+        window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('active'); };
+        window.openModal = (id) => document.getElementById(id).classList.add('active');
+        window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+
+        window.switchTab = (tabId) => {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+            document.getElementById('page-title').innerText = tabId.charAt(0).toUpperCase() + tabId.slice(1);
+            if(window.innerWidth <= 900) toggleSidebar();
+        };
+
+        // Auth
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const snap = await getDoc(doc(db, "users", user.uid));
+                if (snap.exists() && snap.data().role === 'admin') {
+                    currentAdmin = user;
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('app-layout').style.display = 'block';
+                    document.getElementById('admin-name-display').innerText = user.email;
+                    initAdminDashboard();
+                } else { signOut(auth); showToast("Access Denied.", "danger"); }
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('app-layout').style.display = 'none';
+            }
+        });
+
+        window.loginAdmin = () => {
+            const e = document.getElementById('admin-email').value;
+            const p = document.getElementById('admin-password').value;
+            if(!e || !p) return showToast("Enter credentials", "warning");
+            signInWithEmailAndPassword(auth, e, p).then(()=> showToast("Logged in")).catch(e => showToast(e.message, "danger"));
+        };
+        window.logoutAdmin = () => signOut(auth);
+
+        function initAdminDashboard() {
+            loadGlobalSettings();
+            listenToStats();
+            listenToUsers();
+            listenToTasks();
+            listenToChannels();
+            listenToMethods();
+            window.loadWithdraws('Pending');
+        }
+
+        // Settings (Including Social Links and Theme Color)
+        async function loadGlobalSettings() {
+            const snap = await getDoc(doc(db, "settings", "global"));
+            if(snap.exists()) {
+                appSettings = snap.data();
+                document.getElementById('set-bot-token').value = appSettings.botToken || '';
+                document.getElementById('set-bot-user').value = appSettings.botUsername || '';
+                document.getElementById('set-zone-id').value = appSettings.monetagZoneId || '';
+                document.getElementById('set-ad-reward').value = appSettings.rewardPerAd || '';
+                document.getElementById('set-ad-limit').value = appSettings.dailyAdLimit || '';
+                document.getElementById('set-ref-bonus').value = appSettings.refBonus || '';
+                document.getElementById('set-min-with').value = appSettings.minWithdraw || '';
+                document.getElementById('set-currency').value = appSettings.currencySymbol || '';
+                document.getElementById('set-theme-color').value = appSettings.themeColor || '#3b82f6';
+                
+                // Social Links
+                document.getElementById('set-fb-page').value = appSettings.social_fb_page || '';
+                document.getElementById('set-fb-group').value = appSettings.social_fb_group || '';
+                document.getElementById('set-yt-channel').value = appSettings.social_yt_channel || '';
+                document.getElementById('set-tg-channel').value = appSettings.social_tg_channel || '';
+                document.getElementById('set-tg-group').value = appSettings.social_tg_group || '';
+            }
+        }
+
+        window.saveSettings = async () => {
+            appSettings = {
+                botToken: document.getElementById('set-bot-token').value,
+                botUsername: document.getElementById('set-bot-user').value,
+                monetagZoneId: document.getElementById('set-zone-id').value,
+                rewardPerAd: parseFloat(document.getElementById('set-ad-reward').value),
+                dailyAdLimit: parseInt(document.getElementById('set-ad-limit').value),
+                refBonus: parseFloat(document.getElementById('set-ref-bonus').value),
+                minWithdraw: parseFloat(document.getElementById('set-min-with').value),
+                currencySymbol: document.getElementById('set-currency').value,
+                themeColor: document.getElementById('set-theme-color').value,
+                
+                social_fb_page: document.getElementById('set-fb-page').value,
+                social_fb_group: document.getElementById('set-fb-group').value,
+                social_yt_channel: document.getElementById('set-yt-channel').value,
+                social_tg_channel: document.getElementById('set-tg-channel').value,
+                social_tg_group: document.getElementById('set-tg-group').value
+            };
+            await setDoc(doc(db, "settings", "global"), appSettings, { merge: true });
+            showToast("Settings Saved!");
+        };
+
+        // Users & Stats
+        function listenToStats() {
+            onSnapshot(collection(db, "users"), (snap) => {
+                document.getElementById('dash-tot-users').innerText = snap.size;
+                let totBal = 0; let recentHtml = ''; let c = 0;
+                snap.forEach(d => {
+                    let u = d.data();
+                    if(u.role !== 'admin') totBal += (u.balance || 0);
+                    if(c < 5 && u.role !== 'admin') {
+                        recentHtml += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:5px;">
+                            <span style="font-size:13px;">${u.name || 'User'}</span><span class="badge badge-success">$${(u.balance||0).toFixed(2)}</span>
+                        </div>`; c++;
+                    }
+                });
+                document.getElementById('dash-tot-bal').innerText = totBal.toFixed(2);
+                document.getElementById('dash-recent-users').innerHTML = recentHtml;
+            });
+            onSnapshot(query(collection(db, "withdraws"), where("status", "==", "Pending")), (snap) => {
+                document.getElementById('dash-pen-with').innerText = snap.size;
+                document.getElementById('badge-pending').innerText = snap.size;
+            });
+        }
+
+        function listenToUsers() {
+            onSnapshot(collection(db, "users"), (snap) => {
+                allUsers = [];
+                snap.forEach(d => { if(d.data().role !== 'admin') allUsers.push({id: d.id, ...d.data()}) });
+                renderUsers(allUsers);
+            });
+        }
+
+        function renderUsers(list) {
+            let html = list.map(u => `
+                <tr>
+                    <td>${u.name || 'No Name'}</td>
+                    <td>${u.tg_id || u.id}</td>
+                    <td style="color:var(--success); font-weight:bold;">$${(u.balance||0).toFixed(2)}</td>
+                    <td><span class="badge badge-${u.status==='banned'?'danger':'success'}">${u.status||'Active'}</span></td>
+                    <td><button class="btn btn-sm btn-primary" onclick="openUserModal('${u.id}', '${u.status}')">Manage</button></td>
+                </tr>
+            `).join('');
+            document.getElementById('users-table-body').innerHTML = html || '<tr><td colspan="5">No users.</td></tr>';
+        }
+
+        window.filterUsers = () => {
+            const q = document.getElementById('search-user').value.toLowerCase();
+            renderUsers(allUsers.filter(u => (u.name||'').toLowerCase().includes(q) || (u.tg_id||'').toString().includes(q)));
+        };
+
+        let editUid = null;
+        window.openUserModal = (id, stat) => {
+            editUid = id;
+            document.getElementById('edit-user-id').innerText = "UID: " + id;
+            const btn = document.getElementById('btn-ban-user');
+            if(stat === 'banned') {
+                btn.innerText = 'Unban User'; btn.className = 'btn btn-success';
+                btn.onclick = () => actionBanUser(id, 'active');
+            } else {
+                btn.innerText = 'Ban User'; btn.className = 'btn btn-danger';
+                btn.onclick = () => actionBanUser(id, 'banned');
+            }
+            openModal('modal-user');
+        };
+
+        window.updateUserBalance = async () => {
+            const val = parseFloat(document.getElementById('edit-bal-val').value);
+            if(isNaN(val)) return;
+            await updateDoc(doc(db, "users", editUid), { balance: increment(val) });
+            showToast("Balance updated");
+            closeModal('modal-user');
+            document.getElementById('edit-bal-val').value = '';
+        };
+
+        window.actionBanUser = async (id, stat) => {
+            await updateDoc(doc(db, "users", id), { status: stat });
+            showToast("User Status updated"); closeModal('modal-user');
+        };
+
+        // Channels (Force Join)
+        function listenToChannels() {
+            onSnapshot(collection(db, "channels"), (snap) => {
+                let html = '';
+                snap.forEach(d => {
+                    html += `<tr><td>${d.data().name}</td><td>${d.data().url}</td><td><button class="btn btn-sm btn-danger" onclick="deleteChannel('${d.id}')">Delete</button></td></tr>`;
+                });
+                document.getElementById('channels-table-body').innerHTML = html || '<tr><td colspan="3">No channels found.</td></tr>';
+            });
+        }
+        window.saveChannel = async () => {
+            const name = document.getElementById('ch-name').value;
+            const url = document.getElementById('ch-url').value;
+            if(!name || !url) return;
+            await addDoc(collection(db, "channels"), { name, url });
+            showToast("Channel Added!"); closeModal('modal-channel');
+        };
+        window.deleteChannel = async (id) => { await deleteDoc(doc(db, "channels", id)); showToast("Deleted"); };
+
+        // Methods (Payout)
+        function listenToMethods() {
+            onSnapshot(collection(db, "methods"), (snap) => {
+                let html = '';
+                snap.forEach(d => {
+                    let v = d.data();
+                    let logoImg = v.logo ? `<img src="${v.logo}" width="30" style="border-radius:5px;">` : 'N/A';
+                    html += `<tr><td>${v.name}</td><td>${logoImg}</td><td>${v.fee}%</td><td><button class="btn btn-sm btn-danger" onclick="deleteMethod('${d.id}')">Delete</button></td></tr>`;
+                });
+                document.getElementById('methods-table-body').innerHTML = html || '<tr><td colspan="4">No methods found.</td></tr>';
+            });
+        }
+        window.saveMethod = async () => {
+            const name = document.getElementById('meth-name').value;
+            const logo = document.getElementById('meth-logo').value;
+            const fee = parseFloat(document.getElementById('meth-fee').value || 0);
+            if(!name) return;
+            await addDoc(collection(db, "methods"), { name, logo, fee });
+            showToast("Method Added!"); closeModal('modal-method');
+        };
+        window.deleteMethod = async (id) => { await deleteDoc(doc(db, "methods", id)); showToast("Deleted"); };
+
+        // Broadcast (Safe Loop with Delay against API Limits)
+        window.sendBroadcast = async () => {
+            if(!appSettings.botToken) return showToast("Bot Token missing in Settings!", "danger");
+            
+            const img = document.getElementById('bc-image').value;
+            const text = document.getElementById('bc-text').value;
+            const btnName = document.getElementById('bc-btn-name').value;
+            const btnLink = document.getElementById('bc-btn-link').value;
+            
+            if(!text) return showToast("Message content is required", "warning");
+
+            const btnEl = document.getElementById('btn-send-bc');
+            const statusEl = document.getElementById('bc-status');
+            btnEl.disabled = true;
+            btnEl.innerText = "Sending... Please wait!";
+
+            let success = 0, fail = 0;
+            
+            let payload = { parse_mode: "HTML" };
+            if(img) { payload.photo = img; payload.caption = text; }
+            else { payload.text = text; }
+            
+            if(btnName && btnLink) {
+                payload.reply_markup = JSON.stringify({ inline_keyboard: [[{ text: btnName, url: btnLink }]] });
+            }
+
+            const endpoint = img ? `https://api.telegram.org/bot${appSettings.botToken}/sendPhoto` : `https://api.telegram.org/bot${appSettings.botToken}/sendMessage`;
+
+            for(let i=0; i<allUsers.length; i++) {
+                let user = allUsers[i];
+                if(user.tg_id) {
+                    payload.chat_id = user.tg_id;
+                    try {
+                        let res = await fetch(endpoint, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload)
+                        });
+                        if(res.ok) success++; else fail++;
+                    } catch(e) { fail++; }
+                    
+                    statusEl.innerText = `Sent: ${success} | Failed: ${fail} | Remaining: ${allUsers.length - (i+1)}`;
+                    // 60 milliseconds delay to prevent 429 Too Many Requests Error from Telegram
+                    await new Promise(r => setTimeout(r, 60)); 
+                }
+            }
+
+            btnEl.disabled = false;
+            btnEl.innerText = "Send to All Users";
+            showToast(`Broadcast Complete! Successfully sent to ${success} users.`);
+        };
+
+        // Tasks
+        function listenToTasks() {
+            onSnapshot(collection(db, "tasks"), (snap) => {
+                let html = ''; snap.forEach(d => {
+                    html += `<tr><td>${d.data().title}</td><td>${d.data().category}</td><td>$${d.data().reward}</td><td><button class="btn btn-sm btn-danger" onclick="deleteTask('${d.id}')">Delete</button></td></tr>`;
+                }); document.getElementById('tasks-table-body').innerHTML = html || `<tr><td colspan="4">No tasks found.</td></tr>`;
+            });
+        }
+        window.saveTask = async () => {
+            const title = document.getElementById('task-title').value;
+            const reward = document.getElementById('task-reward').value;
+            if(!title || !reward) return;
+            await addDoc(collection(db, "tasks"), {
+                title: title, category: document.getElementById('task-cat').value,
+                reward: parseFloat(reward), link: document.getElementById('task-link').value
+            });
+            showToast("Task Added!"); closeModal('modal-task');
+        };
+        window.deleteTask = async(id) => await deleteDoc(doc(db,"tasks",id));
+
+        // Withdrawals
+        let currentWID = null, currentWUid = null, currentWAmt = 0;
+        window.loadWithdraws = async (status) => {
+            const q = query(collection(db, "withdraws"), where("status", "==", status));
+            const snap = await getDocs(q);
+            let html = '';
+            snap.forEach(d => {
+                let w = d.data();
+                html += `<tr><td>${w.user_id}</td><td>${w.method||'N/A'}</td><td>${w.address}</td><td style="color:var(--success); font-weight:bold;">$${w.amount}</td>
+                <td><span class="badge badge-${status==='Approved'?'success':(status==='Rejected'?'danger':'warning')}">${status}</span></td>
+                <td>${status === 'Pending' ? `<button class="btn btn-sm btn-primary" onclick="openWModal('${d.id}','${w.user_id}',${w.amount},'${w.address}')">Review</button>` : ''}</td></tr>`;
+            });
+            document.getElementById('withdraws-table-body').innerHTML = html || `<tr><td colspan="6">No requests found.</td></tr>`;
+        };
+
+        window.openWModal = (id, uid, amt, addr) => {
+            currentWID = id; currentWUid = uid; currentWAmt = amt;
+            document.getElementById('w-user').innerText = uid; 
+            document.getElementById('w-amt').innerText = "$" + amt; 
+            document.getElementById('w-addr').innerText = addr;
+            openModal('modal-withdraw-action');
+        };
+
+        window.actionWithdraw = async (stat) => {
+            if(stat === 'Rejected') {
+                const userRef = doc(db, "users", currentWUid.toString());
+                await runTransaction(db, async (t) => { 
+                    t.update(userRef, { balance: increment(currentWAmt) }); 
+                    t.update(doc(db, "withdraws", currentWID), { status: stat }); 
+                });
+            } else {
+                await updateDoc(doc(db, "withdraws", currentWID), { status: stat });
+            }
+            showToast(`Marked as ${stat}`); 
+            closeModal('modal-withdraw-action'); 
+            window.loadWithdraws('Pending');
+        };
+
+    </script>
+</body>
+</html>
